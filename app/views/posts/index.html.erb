@@ -1,0 +1,50 @@
+<h2> All post </h2>
+<div class="container">
+	<div class="row justify-content-md-left">
+		
+		<div class="col-md-2">Title</div>	
+		<div class="col-md-3">Body</div>				
+		<div class="col-md-2">Post by </div>
+		<div class="col-md-2">Created at </div>
+		<div class="col-md-3">Action <br></div>
+	</div>
+	<% @posts.each do |u| %>
+		<% if u!= nil %>
+			<% if u.publish %>
+				<div class="row justify-content-md-left">
+					
+					<div class="col-md-2"><strong><%= u.title %></strong></div>	
+					<div class="col-md-3"><strong><%= u.body %></strong></div>
+								
+					<div class="col-md-2"><%= u.user.email %></div>	
+					
+					<div class="col-md-2"><%= time_ago_in_words(u.created_at) %></div>
+					<div class="col-md-3"><%= link_to("Show", post_path(u.id)) %>&nbsp;<% if u.user_id == session[:current_user_id] %><%= link_to("Edit", edit_post_path(u.id)) %>&nbsp;<%= link_to("Delete",post_path(u.id),data: { confirm: "Are you sure?" }, method: :delete) %>
+					<% end %><% if is_admin?(session[:current_user_id])  %> &nbsp; <%= link_to("Un-publish",posts_soft_publish_path(u.id), html_options = {method: :post}) %><% end %>
+					</div>
+				</div>
+			<% end %>
+		<% end %>
+	<% end %>
+	<% @posts.each do |u| %>
+		<% if u!= nil %>
+			<%  if(!u.publish && u.user_id == session[:current_user_id])%>
+			<div><br><strong> Un-publish Post</strong> </div><br>
+				<div class="row justify-content-md-left">
+					
+					<div class="col-md-2"><strong><%= u.title %></strong></div>	
+					<div class="col-md-3"><strong><%= u.body %></strong></div>
+								
+					<div class="col-md-2"><%= u.user.email %></div>	
+					
+					<div class="col-md-2"><%= time_ago_in_words(u.created_at) %></div>
+					<div class="col-md-3"><%= link_to("Show", post_path(u.id)) %>&nbsp;<%= link_to("Edit", edit_post_path(u.id)) %><% if is_admin?(session[:current_user_id])  %>&nbsp;<%= link_to("Publish",posts_soft_unpublish_path(u.id), html_options = {method: :post}) %><% end %>&nbsp;<%= link_to("Delete",post_path(u.id),data: { confirm: "Are you sure?" }, method: :delete) %></div>
+				</div>
+			<% end %>
+					
+			
+		<% end %>
+	<% end %>	
+	
+	<%= link_to("Go to menu", user_login_path) %>	
+</div>

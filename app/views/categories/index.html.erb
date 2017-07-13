@@ -1,0 +1,112 @@
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$("#delete_collection").hide();
+
+	$("#categories_all_categories").change(function() { 
+
+
+		
+		var l = document.getElementsByClassName("accept_ctegory").length;
+		if($(this).is(":checked")) {
+			
+			for(i=0;i<l;i++)
+			{
+				document.getElementsByClassName("accept_ctegory")[i].checked = true;
+			}
+			$("#delete_collection").show();
+			
+		}
+		else
+		{
+			for(i=0;i<l;i++)
+			{
+				document.getElementsByClassName("accept_ctegory")[i].checked = false;
+			}
+			$("#delete_collection").hide();
+		}
+	});
+
+
+	$(".accept_ctegory").change(function() { 
+
+		var l = document.getElementsByClassName("accept_ctegory").length;
+		var check_count = $('.accept_ctegory:checked').size();  
+		// alert(check_count +"check_count");
+		// alert(l +"ctegory");
+		if( check_count >= 0 ) {
+			$("#delete_collection").show();
+			if(check_count == l)
+				{
+					document.getElementById("categories_all_categories").checked = true;
+				}
+			else
+			{
+				document.getElementById("categories_all_categories").checked = false;
+			}
+		} 
+		else {
+			$("#delete_collection").hide();
+			
+		}	
+		
+		
+	});
+
+
+});
+
+</script>
+<div class="container">
+<%= render_breadcrumbs %>
+<%= form_tag new_bulk_delete_path, method: :delete do %>
+<%= submit_tag "Delete checked",:id=> "delete_collection" %>
+	<div class="row justify-content-md-left">
+
+		<div class="col col-md-3">
+	  		
+	    	
+			<%= check_box("categories_all", "categories") %>&nbsp;All
+		</div>	
+		<div class="col col-md-3">Category</div>				
+		<div class="col-4 col-md-3">Subcategories <br></div>
+	</div>	
+	 <% @categories.each do |c| %>
+		 <% if(c.parent_id == nil) %>
+
+			<div class="row justify-content-md-left">	
+				<div class="col col-md-3"><%= check_box_tag "category_ids[]", c.id,false, {:class =>'accept_ctegory'} %></div>				
+				<div class="col col-md-3"><%= c.name %> &nbsp;
+				 <%= link_to("Show", {:action =>'show', :id => c.id}, :class => 'action show') %>
+        				<%= link_to("Edit", {:action => 'edit',:id => c.id}, :class => 'action edit') %>
+        				<%= link_to("Delete", category_path(c),:data => {:confirm => "You sure?",:method => "delete"})%> </div>
+				<div class="col-4 col-md-3">
+					<table class="table">
+						<% @categories.each do |d| %>
+							<% if(c.id==d.parent_id) %>
+								<tr>
+		  						<%= d.name %>
+														
+							&nbsp; <%= link_to("Show", {:action =>'show', :id => d.id}, :class => 'action show') %>
+        				<%= link_to("Edit", {:action => 'edit',:id => d.id}, :class => 'action edit') %>
+        				<%= link_to("Delete", category_path(d),:data => {:confirm => "You sure?",:method => "delete"})%><br></tr> </div>
+        				<% end %>
+						<% end %>
+					</table>
+				</div>
+				
+				
+			</div>
+		<% end %>
+		
+	<% end %>
+	
+
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4">						
+			<%= link_to("Go to menu", user_login_path) %>		
+		</div>	
+		
+	</div>
+</div>
+<% end %>

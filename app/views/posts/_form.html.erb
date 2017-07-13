@@ -1,0 +1,11 @@
+<%= form_for @post do |f| %>
+   	<div><%=f.label(:title, "Post Title")%></div>
+  	<div><%= f.text_field(:title, placeholder: "Enter post title") %></div>
+  	<div><%=f.label(:body, "Post body")%></div>
+  	<div><%= f.text_field(:body, placeholder: "Enter text for the post body") %> </div>
+  	
+      <div class="form-buttons">
+  		<%= submit_tag() %>
+      </div>
+
+  <% end %>

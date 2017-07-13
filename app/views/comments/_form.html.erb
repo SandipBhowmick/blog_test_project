@@ -1,0 +1,30 @@
+<%# if @post.comment.errors.full_messages.any? %>
+  <%# @post.comments.errors.full_messages.each do |error_message| %>
+    <%#= error_message if @post.comments.errors.full_messages.first == error_message %> <br />
+  <%# end %>
+<%# end %>
+ <%= form_for([@post, @post.comments.build]) do |f| %>
+	<%= f.label :name %><br>
+	<%= f.text_field :name %><br>
+	<% if !flash[:name].blank? %>
+		<div class="notice"><%= flash[:name] %></div>
+  	<% end %>
+  	<% if alert %>
+  	<p class="alert alert-danger"><%= alert %></p>
+	<% end %>
+	<br>
+	<%= f.label :body %><br>
+	<%= f.text_area :body %><br>
+	<% if !flash[:body].blank? %>
+		<div class="notice"><%= flash[:body] %></div>
+  	<% end %>
+  	<% if alert %>
+  	<p class="alert alert-danger"><%= alert %></p>
+	<% end %>
+	<br>
+	<%= f.submit %>
+
+	
+</div>
+</div>
+<% end %>

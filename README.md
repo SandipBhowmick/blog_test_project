@@ -1,0 +1,1 @@
+# blog_test_project_brsoft

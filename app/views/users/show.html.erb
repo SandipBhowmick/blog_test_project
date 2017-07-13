@@ -1,0 +1,59 @@
+<%= render_breadcrumbs %>
+
+<div class="container">
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4"><h2>User detail page</h2></div>
+		<div class="col-8 col-md-4"></div>
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4">Name</div>
+		<div class="col-8 col-md-4"><%=@user.first_name %>&nbsp;<%=@user.last_name %></div>
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4">Gender</div>
+		<%if(@user.gender.include? "m") %>
+		<div class="col-8 col-md-4">Male</div>
+		<% else %>
+		<div class="col-8 col-md-4">Female</div>
+		<% end %>		
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4">Country</div>
+		<div class="col-8 col-md-4"><%=@country.country_name %></div>
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4">State</div>
+		<div class="col-8 col-md-4"><%= @state.state_name %></div>
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4">Follow/ Un-follow this user</div>
+
+		<% if !follow_details()  %>
+			<%= form_for(@follow, :url => follow_user_path(:followers => session[:current_user_id],:followee =>  @user.id)) do |f| %>
+			<div class="col-8 col-md-4"><%= f.submit "Follow" %></div>
+			<% end %>
+		<% else %>
+			<%= form_for(@follow, :url => unfollow_user_path(:followers =>session[:current_user_id],:followee =>  @user.id)) do |f| %>
+			<div class="col-8 col-md-4"><%= f.submit "Un-Follow" %></div>
+			<% end %>
+		<% end %>
+
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4"><%=  %></div>
+		<div class="col-8 col-md-4"><%= %></div>
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4"><%=  %></div>
+		<div class="col-8 col-md-4"><%= %></div>
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4"><%=  %></div>
+		<div class="col-8 col-md-4"><%= %></div>
+	</div>
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4"><%=  %></div>
+		<div class="col-8 col-md-4"><%= %></div>
+	</div>
+	<%= link_to("Go to menu", user_login_path) %>
+</div>

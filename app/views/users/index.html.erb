@@ -1,0 +1,27 @@
+<h2> All users </h2>
+<div class="container">
+	<div class="row justify-content-md-left">
+		
+		<div class="col col-md-3">Name</div>	
+		<div class="col col-md-3">Email</div>				
+		<div class="col-4 col-md-3">Follow count <br></div>
+	</div>
+
+	<% @users.each do |u| %>
+		<% if session[:current_user_id]!= u.id %>
+			<div class="row justify-content-md-left">
+				
+				<div class="col col-md-3"><%= u.first_name %>&nbsp;<%= u.last_name %></div>	
+				<div class="col col-md-3"><%= u.email %></div>
+				<% if u.follow_count!=0 or nil %>				
+				<div class="col-4 col-md-3"><%= u.follow_count %></div>	
+				<% else %>
+				<div class="col-4 col-md-3">No one follow this User</div>
+				<% end %>
+				<div class="col-4 col-md-3"><%= link_to("Show", user_path(u.id)) %></div>	
+			</div>
+		<% end %>
+	<% end %>
+
+</div>
+<div><%= link_to("Go to menu", user_login_path) %></div>

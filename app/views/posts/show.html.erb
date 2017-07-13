@@ -1,0 +1,33 @@
+<%= render_breadcrumbs %>
+
+
+
+<div class="container">
+	<div class="row justify-content-md-left">
+		<div class="col-md-6"><h2>Title</h2></div>
+		<div class="col-md-6"><%= @post.title %></div>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-6">Body</div>
+		<div class="col-md-6"><%=@post.body %></div>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-6">Post by</div>
+		<div class="col-md-6"><%=@post.user_id %></div>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-6">Posted at</div>
+		<div class="col-md-6"><%=@post.created_at %></div>
+	</div>
+
+	<div>
+		<h2><%= @post.comments.count %> Comments </h2>
+		<%= render @post.comments %>
+		<h3>Add a comment: </h3>
+		<%= render "comments/form" %>
+	</div>
+	<%= link_to("Go to menu", user_login_path) %>
+</div>

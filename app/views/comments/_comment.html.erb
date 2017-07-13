@@ -1,0 +1,39 @@
+<% if comment.publish == true %>
+	<div >
+		<div>
+			<p><strong><%= comment.name %></strong></p>
+			<p ><%= comment.body %></p> 
+			<p >Comment by :<%= comment.user.email %></p>
+			<p ><%= time_ago_in_words(comment.created_at) %> Ago</p>
+		</div>	
+		<% if(comment.user_id== session[:current_user_id])%>
+			<p><%= link_to('Delete', [comment.post, comment],method: :delete, :data => {:confirm => 'Are you sure?'})%>&nbsp;
+			<%= link_to('Edit', edit_post_comment_path(@post.id,comment.id))%>&nbsp;
+			<% end %>
+			<% if is_admin?(session[:current_user_id]) %>
+				<%= link_to("Un-publish",posts_comments_soft_publish_path(:post_id =>@post.id,:id =>comment.id), html_options = {method: :post}) %>
+			<% end %>
+			</p>
+		
+	</div> 
+<% else %><%if(comment.user_id== session[:current_user_id] || is_admin?(session[:current_user_id]) )  %>
+	<div ><strong>Un-publish Commends</strong>
+		<div>
+			<p><strong><%= comment.name %></strong></p>
+			<p ><%= comment.body %></p>
+			<p >Comment by :<%= comment.user.email %></p>
+			<p ><%= time_ago_in_words(comment.created_at) %> Ago</p>
+		</div>
+		<p>	
+			<% if(comment.user_id== session[:current_user_id]) %>
+				<%= link_to('Delete', [comment.post, comment],method: :delete, :data => {:confirm => 'Are you sure?'})%>&nbsp;
+				<%= link_to('Edit', edit_post_comment_path(@post.id,comment.id))%>
+			<% end %>
+			<% if is_admin?(session[:current_user_id]) %>
+				<%= link_to("Publish",posts_comments_soft_unpublish_path(:post_id =>@post.id,:id =>comment.id), html_options = {method: :post}) %>
+			<% end %>
+		</p>
+		
+	</div> 
+	<% end %>
+<% end %>	

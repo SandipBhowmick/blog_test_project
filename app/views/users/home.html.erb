@@ -1,0 +1,20 @@
+<%= render_breadcrumbs %>
+<div class="row"> 
+  <div class="col-md-4 offset-md-6"><h2>Home</h2></div>
+</div>
+
+
+<div class="row"> 
+ 
+  <div class="col-md-4 offset-md-8"><%= link_to("New user registration", {:controller => 'users',:action => 'new'}) %>&emsp;<% if(session[:email]) %> <%= link_to("Logout",{:controller => 'access',:action => 'logout'})%> <% else %> <%= link_to("Login", {:controller => 'access',:action => 'index'})%> <% end %>&emsp;<%= link_to("All users", {:controller => 'users',:action => 'index'}) %></div>
+</div>
+
+
+
+
+<div> <%= link_to("Go to menu", user_login_path) %></div>
+
+
+
+
+
