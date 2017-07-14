@@ -9,6 +9,7 @@ class AccessController < ApplicationController
 
   def index
   	#display text & links
+     # @ = session[:current_user_id]
 
   end
 
@@ -39,6 +40,7 @@ class AccessController < ApplicationController
       if authorized_user.is_approve   
         session[:email] = authorized_user.email
         session[:current_user_id] = authorized_user.id
+        # cookies[:current_user_id] = authorized_user.id
         flash[:notice] = "You are now logged in."
         redirect_back_or_default(root_path)
       else
@@ -58,4 +60,15 @@ class AccessController < ApplicationController
   	flash[:notice] = "Logged out"
   	redirect_to(:action => "login")
   end   
+
+  def api_log_in
+    # abort(params.to_json)
+    if session[:current_user_id]
+      result = {'res' => session[:current_user_id], 'message' => 'Log in state.'} 
+    else
+      result = {'res' => nil, 'message' => 'Log in state.'}
+    end
+    render json: result, status: 200        
+  end
+
 end

@@ -43,10 +43,10 @@ class UsersController < ApplicationController
 	end
 
 	def get_states
-		states = State.where('country_id = ?', params[:id]).order('state_name ASC')
-		result = {'res' => states, 'message' => 'All states.'}		
-		render json: result, status: 200
-	end
+    	states = State.where('country_id = ?', params[:id]).order('state_name ASC')
+    	result = {'res' => states, 'message' => 'All states.'}    
+    	render json: result, status: 200
+  	end
 
 	def follow_user
 		followee = params[:followee]
@@ -130,7 +130,14 @@ class UsersController < ApplicationController
 	end
 	helper_method :follow_details
 
-
+	def api_log_in    
+	    if session[:current_user_id]
+	      result = {'res' => session[:current_user_id], 'message' => 'Log in state.'} 
+	    else
+	      result = {'res' => nil, 'message' => 'Log in state.'}
+	    end
+	    render json: result, status: 200        
+  	end
 
 
 

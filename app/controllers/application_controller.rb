@@ -4,18 +4,23 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   
+  
 
 
   private 
 
   def store_return_to
-  session[:return_to] = request.url
+    session[:return_to] = request.url
   end
 
   def confirm_logged_in
+
+    # if(session[:return_to])
+    #   abort(session[:return_to].to_json)
+    # end
     
     unless session[:email]
-      flash[:notice]= 'Please log in.'
+      flash[:notice]= 'Please log in.'+ ''
       redirect_to(:controller=>'access', :action => 'login')
       return false # halts the before_action
     else

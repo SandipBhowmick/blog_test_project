@@ -1,15 +1,43 @@
 <%= render_breadcrumbs %>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".btn-inverse").on('click',function(){
+		var a= $(this).text();		
+		data_from_state(a);
+	});
+
+
+	function data_from_state(a) {
+		a= a.toLowerCase();
+		$.ajax({          
+		type: "get",
+		url: "<%= api_log_in_path %>",		
+		data: {},
+			success: function(r){				
+				 if(!r.res)
+				 {
+				 	 alert("For "+a+" you need to login..");
+				 }				
+			},
+		});
+	}
+});
+
+
+</script>
+
+
 <div class="menu">
 	<h2> Menu </h2>
 	<div class="idntity">Logged in as:<%= session[:email] %></div>
 	<ul>
-		<li><%= link_to("Create a category", new_category_path) %></li>		
-		<li><%= link_to("All category", categories_path) %></li>
-		<% if session[:current_user_id] != nil %><li><%= link_to("Profile ", user_path(session[:current_user_id])) %></li><% end %>	
-		<li><%= link_to("New Post", new_post_path) %></li>	
-		<li><%= link_to("All Post", posts_path) %></li>	
-		<li><%= link_to("Approve users", approve_users_users_path) %></li>	
+		<li><%= link_to("Create new category", new_category_path,:class => "btn-inverse") %></li>		
+		<li><%= link_to("Show all category", categories_path,:class => "btn-inverse") %></li>
+		<% if session[:current_user_id] != nil %><li><%= link_to("Show profile ", user_path(session[:current_user_id]),:class => "btn-inverse") %></li><% end %>	
+		<li><%= link_to("Create new post", new_post_path,:class => "btn-inverse") %></li>	
+		<li><%= link_to("View all post", posts_path) %></li>	
+		<li><%= link_to("Approve users", approve_users_users_path, :class => "btn-inverse") %></li>	
 	</ul>
 </div>
 <div><% if session[:current_user_id] != nil %> <%= link_to("Logout", :action => 'logout') %> <% else %><%= link_to("Login", :action => 'login') %><% end %></div>
