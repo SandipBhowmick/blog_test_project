@@ -139,6 +139,36 @@ class UsersController < ApplicationController
 	    render json: result, status: 200        
   	end
 
+  	#'Acting' => 1, 'Cooking' => 2, 'Dance' => 3, 'Fashion' => 4, 'Pet' => 5,  'Puzzles' => 6
+  	def convert_array(p)
+  		i=0
+  		a = ""
+  		
+		p.each do |t|
+  			if(i>0)
+  				a = a.to_s + ","
+  			end
+  			i=i+1
+
+  			case t
+  			when "1"
+  				a = a.to_s + ' Acting'	  			
+  			when "2"
+  				a = a.to_s + ' Cooking'	  			
+  			when "3"
+  				a = a.to_s + ' Dance'	  			
+  			when "4"
+  				a = a.to_s + ' Fashion'	  			
+  			when "5"
+  				a = a.to_s + ' Pet'	  			
+  			else 
+  				a = a.to_s + ' Puzzles'
+  			end	 	
+		end
+		return a
+
+	end
+  	helper_method :convert_array
 
 
 	private

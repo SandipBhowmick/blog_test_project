@@ -13,11 +13,14 @@ class PostsController < ApplicationController
 
 	def new
 		@post = Post.new()
+		
 	end
 
 
 	def create
+		
 		@post = Post.new(post_params)
+
 		@post.user_id= session[:current_user_id]
 		# abort("test")
 
@@ -97,9 +100,14 @@ class PostsController < ApplicationController
 
 		def post_params
 
-			params.require(:post).permit(:title,:body,:user_id,:deleted_at)
+			params.require(:post).permit(:title,:body,:user_id,:deleted_at,:image)
 	
 		end
 
+		
+
+			
+	
+		
 
 end

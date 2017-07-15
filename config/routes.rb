@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       #    get '/posts/:post_id/comments(.:format)', to: 'posts#show'        
       # end
     end
+
+    resources :post_details
       
    
 
