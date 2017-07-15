@@ -22,6 +22,14 @@
   	<p class="alert alert-danger"><%= alert %></p>
 	<% end %>
 	<br>
+	<%= f.attachment_field :image %>
+	<% if !flash[:image].blank? %>
+		<div class="notice"><%= flash[:image] %></div>
+  	<% end %>
+  	<% if alert %>
+  	<p class="alert alert-danger"><%= alert %></p>
+	<% end %>
+	<br>
 	<%= f.submit %>
 
 	

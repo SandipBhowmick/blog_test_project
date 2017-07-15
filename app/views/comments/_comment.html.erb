@@ -3,6 +3,7 @@
 		<div>
 			<p><strong><%= comment.name %></strong></p>
 			<p ><%= comment.body %></p> 
+			<p><%= image_tag attachment_url(comment, :image, :fill, 50, 50, format: "jpg") %></p>
 			<p >Comment by :<%= comment.user.email %></p>
 			<p ><%= time_ago_in_words(comment.created_at) %> Ago</p>
 		</div>	
@@ -16,11 +17,12 @@
 			</p>
 		
 	</div> 
-<% else %><%if(comment.user_id== session[:current_user_id] || is_admin?(session[:current_user_id]) )  %>
+<% else %><%if(comment.user_id == session[:current_user_id] || is_admin?(session[:current_user_id]) )  %>
 	<div ><strong>Un-publish Commends</strong>
 		<div>
 			<p><strong><%= comment.name %></strong></p>
 			<p ><%= comment.body %></p>
+			<p><%= image_tag attachment_url(comment, :image, :fill, 50, 50, format: "jpg") %></p>
 			<p >Comment by :<%= comment.user.email %></p>
 			<p ><%= time_ago_in_words(comment.created_at) %> Ago</p>
 		</div>

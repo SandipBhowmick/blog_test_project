@@ -17,17 +17,26 @@ class CommentsController < ApplicationController
 		change_params = comment_params.clone
 		change_params[:user_id]= session[:current_user_id]
 		@comment = @post.comments.build(change_params)
-		
+		#abort(comment_params[:image].class.to_s)
 		# abort(comment_params)
 		if(comment_params[:name]=="")
 			flash[:name]= "Name cannot be blank."
 		end
 
 		if(comment_params[:body]=="")
-			flash[:body]= "Body cannot be blank."
+			
+			if (comment_params[:image].is_a? String)
+				if(comment_params[:image].tr('{}', '')=="")
+				flash[:body]= "Body cannot be blank."
+				flash[:image]= "Please choose one image."
+				# byebug
+				end	
+			end		
 		end
 
-		
+
+
+		# abort(@comment.inspect)
 		# redirect_to(post_path(@post))
 		if @comment.save
 			flash[:notice]= "great."
@@ -52,6 +61,16 @@ class CommentsController < ApplicationController
 	def update
 		@post= Post.find(params[:post_id])
 		@comment = Comment.find(params[:id])
+		if(comment_params[:body]=="")
+			
+			if (comment_params[:image].is_a? String)
+				if(comment_params[:image].tr('{}', '')=="")
+				flash[:body]= "Body cannot be blank."
+				flash[:image]= "Please choose one image."
+				# byebug
+				end	
+			end		
+		end
 		if @comment.update_attributes(comment_params)
 			flash[:notice]= "commant updated successfully."
 			redirect_to posts_path
@@ -125,7 +144,7 @@ class CommentsController < ApplicationController
 	
 		def comment_params
 
-			@comment_params=params.require(:comment).permit(:name,:body,:user_id)	
+			@comment_params=params.require(:comment).permit(:name,:body,:user_id,:image)	
 		end
 
 
