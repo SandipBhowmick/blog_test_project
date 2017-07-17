@@ -26,10 +26,11 @@ class User < ActiveRecord::Base
 	# validates_length_of :password, :minimum => 6, :maximum => 16
 	
 	# validates_uniqueness_of :email
+	has_many :follows
 	belongs_to :country
 	has_many :categories
 	belongs_to :state
-	has_and_belongs_to_many :post
+	has_many :posts
 	has_many :comment , :through => :post
 
 	GET_INTEREST = {'Acting' => 1, 'Cooking' => 2, 'Dance' => 3, 'Fashion' => 4, 'Pet' => 5,  'Puzzles' => 6}

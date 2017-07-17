@@ -5,8 +5,7 @@ class AccessController < ApplicationController
 
   # before_action :confirm_logged_in, :except => [:index,:login, :attempt_login, :logout]
 
-  add_breadcrumb "home", :root_path
-
+  
   def index
   	#display text & links
      # @ = session[:current_user_id]

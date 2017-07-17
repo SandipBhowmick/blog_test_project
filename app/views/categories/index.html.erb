@@ -58,7 +58,7 @@ $(document).ready(function(){
 
 </script>
 <div class="container">
-<%= render_breadcrumbs %>
+
 <%= form_tag new_bulk_delete_path, method: :delete do %>
 <%= submit_tag "Delete checked",:id=> "delete_collection" %>
 	<div class="row justify-content-md-left">
@@ -104,7 +104,7 @@ $(document).ready(function(){
 
 	<div class="row justify-content-md-left">
 		<div class="col col-md-4">						
-			<%= link_to("Go to menu", user_login_path) %>		
+					
 		</div>	
 		
 	</div>

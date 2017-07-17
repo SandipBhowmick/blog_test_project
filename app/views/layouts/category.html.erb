@@ -12,6 +12,7 @@
 	
 </head>
 <body class="body-background">
+
 <div> <% if(session[:current_user_id]!= nil)%> Loged in as : <%= User.find(session[:current_user_id]).email %> <% end %> </div>
 <div>
 
@@ -26,8 +27,12 @@
     </div>
 </div>
 
+<%= link_to("Home", root_path) %>
+
 
 <%= yield %>
+
+<%= link_to("Go to menu", user_menu_path) %>
 
 </body>
 </html>

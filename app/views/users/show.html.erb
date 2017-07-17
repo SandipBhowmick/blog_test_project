@@ -1,4 +1,4 @@
-<%= render_breadcrumbs %>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".btn-inverse").on('click',function(){
@@ -68,7 +68,7 @@ $(document).ready(function(){
 	</div>
 	<div class="row justify-content-md-left">
 		<div class="col col-md-4">Follow/ Un-follow this user</div>
-
+		<% if  session[:current_user_id]!= @user.id %>
 		<% if !follow_details()  %>
 			<%= form_for(@follow, :url => follow_user_path(:followers => session[:current_user_id],:followee =>  @user.id)) do |f| %>
 			<div class="col-8 col-md-4"><%= f.submit "Follow", :class=>"followUnfollow"%></div>
@@ -77,6 +77,7 @@ $(document).ready(function(){
 			<%= form_for(@follow, :url => unfollow_user_path(:followers =>session[:current_user_id],:followee =>  @user.id)) do |f| %>
 			<div class="col-8 col-md-4"><%= f.submit "Un-Follow", :class=>"followUnfollow" %></div>
 			<% end %>
+		<% end %>
 		<% end %>
 
 	</div>
@@ -96,6 +97,63 @@ $(document).ready(function(){
 		<div class="col col-md-4"> Profile created </div>
 		<div class="col-8 col-md-4"><%=time_ago_in_words(@user.created_at) %></div>
 	</div>
+
+
+	<div class="row justify-content-md-left">
+		<div class="col col-md-4"> <br> </div>
+		<div class="col-8 col-md-4"> </div>
+	</div>
+	<% if @user.id == session[:current_user_id] %> 
+
+	<div class="row justify-content-md-left">
+
+		<div class="col col-md-4"><strong> Followers Post </strong></div>
+		<div class="col col-md-4"><%#= @posts.inspect %><%#= @user.id.inspect %> <%#=session[:current_user_id] %>
+		</div>
+	</div>
+	<div class="row justify-content-md-left">
+		<% @posts.each do |f| %>
+			<% f.each do |t| %>
+			<% if (t.publish) %>
+			<div style="margin-bottom: 50px;" class="container">
+	<div class="row justify-content-md-left">
+		<div class="col-md-4"><h2>Title</h2></div>
+		<div class="col-md-6"><%= t.title %></div>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-4"><strong>Body</strong></div>
+		<div class="col-md-6"><%=t.body %></div>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-4"><strong>Image</strong></div>
+		<div class="col-md-6"><%= image_tag attachment_url(t, :image, :fill, 100, 100, format: "jpg") %></div>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-4"><strong>Post by</strong></div>
+		<div class="col-md-6"><%=t.user.email %></div>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-4"><strong>Post at</strong></div>
+		<div class="col-md-6"><%=time_ago_in_words(t.created_at) %> ago</div>
+	</div>
+
 	
-	<%= link_to("Go to menu", user_login_path) %>
+	
+</div><br>
+		<% end %>
+			<% end %>
+		<% end %>
+
+	</div>
+
+<% end %>
+
+
+
+	
+	
 </div>

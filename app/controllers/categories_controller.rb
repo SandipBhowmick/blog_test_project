@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
 	before_action :store_return_to
 	before_action :confirm_logged_in
 	
-	add_breadcrumb "home", :root_path
+	
 
 	def new
 		@category = Category.new()

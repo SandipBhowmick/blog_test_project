@@ -46,8 +46,8 @@ Rails.application.routes.draw do
     # end
 
     get 'access/logout' => 'access#logout'
-    get 'access/login' => 'access#login'
-    get 'access/index' => 'access#index', as: 'user_login'
+    get 'access/login' => 'access#login', as: 'user_login'
+    get 'access/index' => 'access#index', as: 'user_menu'
     get 'get_states' => 'users#get_states', as: 'get_states'
     delete 'new_bulk_delete' => 'bulk_delete#delete', as: 'new_bulk_delete' 
 

@@ -2,7 +2,7 @@ class Follow < ActiveRecord::Base
 	# validate  :follow_uniqueness_of_count, :on => :create
 
 
-
+	belongs_to :user
   
 
   # def follow_uniqueness_of_count

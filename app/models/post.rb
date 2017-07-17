@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
 	attachment :image
 	has_many :comments, dependent: :destroy
 	belongs_to :user
-	has_one :post_detail
+	# has_one :post_detail
 	validates :title, :presence => true
 
 	validates :body, presence: true, unless: :image

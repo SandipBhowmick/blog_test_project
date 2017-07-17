@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 	layout "user"
-	add_breadcrumb "home", :root_path
+	
 	# before_action :confirm_logged_in, :except => [:home,:new,:create,:get_states,:index, :show, :follow_details]
 	before_action :store_return_to
 	before_action :confirm_logged_in_as_admin, :only =>[:approve_users]
@@ -22,7 +22,21 @@ class UsersController < ApplicationController
 		@country = @user.country
 		@state = @user.state
 		@follow=Follow.new()
+		@followers = Follow.where(:follower_id =>@user.id)
+		@posts=[]
+		@followers.each do |t|
+			@posts << Post.where(:user_id => t.user_id)
+
+		end
+
+		# @follow_users = @user.follows
+		# @follow_users_post= @follow_users.user.posts
+		      # byebug
+		# @posts = 
 	end
+
+	
+
 
 	def new
 		@user=User.new()		
@@ -169,6 +183,16 @@ class UsersController < ApplicationController
 
 	end
   	helper_method :convert_array
+
+  	def is_admin?(user)
+		user = User.find_by_id(user)
+		if(user!= nil)
+			user.is_admin
+		else
+			false
+		end
+	end
+	helper_method :is_admin?
 
 
 	private

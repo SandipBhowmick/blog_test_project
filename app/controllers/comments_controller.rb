@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
 	layout "comment"
 	before_action :store_return_to
 	before_action :confirm_logged_in 
-	add_breadcrumb "home", :root_path
+	
 	# def index
 
 	# end

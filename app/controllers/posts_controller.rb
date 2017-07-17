@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
 	layout "post"
-	add_breadcrumb "home", :root_path
+	
 	before_action :store_return_to
 	before_action :confirm_logged_in,:except => [:index, :show] 
 
