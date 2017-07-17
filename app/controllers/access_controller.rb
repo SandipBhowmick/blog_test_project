@@ -55,7 +55,8 @@ class AccessController < ApplicationController
   def logout
     # mark user as logged out
     session[:email] = nil 
-    session[:current_user_id] = nil  
+    session[:current_user_id] = nil 
+    session[:return_to] = nil 
   	flash[:notice] = "Logged out"
   	redirect_to(:action => "login")
   end   

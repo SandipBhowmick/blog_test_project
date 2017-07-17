@@ -6,7 +6,7 @@
 
 <div class="row"> 
  
-  <div class="col-md-4 offset-md-8"><%= link_to("New user registration", {:controller => 'users',:action => 'new'}) %>&emsp;<% if(session[:email]) %> <%= link_to("Logout",{:controller => 'access',:action => 'logout'})%> <% else %> <%= link_to("Login", user_login_path)%> <% end %>&emsp;<%= link_to("All users", {:controller => 'users',:action => 'index'}) %></div>
+  <div class="col-md-4 offset-md-8"><% if !session[:current_user_id] %><%= link_to("New user registration", {:controller => 'users',:action => 'new'}) %><% end %>&emsp;<% if(session[:email]) %> <%= link_to("Logout",{:controller => 'access',:action => 'logout'})%> <% else %> <%= link_to("Login", user_login_path)%> <% end %>&emsp;<%= link_to("All users", {:controller => 'users',:action => 'index'}) %></div>
 </div>
 
 

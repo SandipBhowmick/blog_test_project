@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 	before_action :store_return_to
 	before_action :confirm_logged_in_as_admin, :only =>[:approve_users]
 	before_action :confirm_logged_in, :only =>[:follow_user, :unfollow_user]
-	
+	before_action :user_login? , :only =>[:new,:create]
 
 	def home
 		@user=User.new()
@@ -22,12 +22,13 @@ class UsersController < ApplicationController
 		@country = @user.country
 		@state = @user.state
 		@follow=Follow.new()
-		@followers = Follow.where(:follower_id =>@user.id)
-		@posts=[]
-		@followers.each do |t|
-			@posts << Post.where(:user_id => t.user_id)
+		@followers = Follow.where(:follower_id =>@user.id).pluck(:user_id)
+		# byebug
+		@posts=Post.where(:user_id => @followers)
+		# @followers.each do |t|
+			# @posts << Post.where(:user_id => @followers)
 
-		end
+		# end
 
 		# @follow_users = @user.follows
 		# @follow_users_post= @follow_users.user.posts
@@ -196,6 +197,18 @@ class UsersController < ApplicationController
 
 
 	private
+
+	def user_login?
+		unless !session[:current_user_id]
+      		redirect_to root_path
+      		
+      		return false 
+    	else
+      		return true
+    	end
+	end
+
+
 	def user_params		
 		params[:user][:interest]=(params[:user][:interest]).to_json		
 		params.require(:user).permit(:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :password, :profile_image,:password_confirmation, :is_approve)

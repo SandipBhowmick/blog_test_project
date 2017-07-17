@@ -112,40 +112,39 @@ $(document).ready(function(){
 		</div>
 	</div>
 	<div class="row justify-content-md-left">
-		<% @posts.each do |f| %>
-			<% f.each do |t| %>
+		<% @posts.each do |t| %>
+			<%# f.each do |t| %>
 			<% if (t.publish) %>
-			<div style="margin-bottom: 50px;" class="container">
-	<div class="row justify-content-md-left">
-		<div class="col-md-4"><h2>Title</h2></div>
-		<div class="col-md-6"><%= t.title %></div>
-	</div>
+				<div style="margin-bottom: 50px;" class="container">
+					<div class="row justify-content-md-left">
+						<div class="col-md-4"><h2>Title</h2></div>
+						<div class="col-md-6"><%= t.title %></div>
+					</div>
 
-	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Body</strong></div>
-		<div class="col-md-6"><%=t.body %></div>
-	</div>
+					<div class="row justify-content-md-left">
+						<div class="col-md-4"><strong>Body</strong></div>
+						<div class="col-md-6"><%=t.body %></div>
+					</div>
 
-	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Image</strong></div>
-		<div class="col-md-6"><%= image_tag attachment_url(t, :image, :fill, 100, 100, format: "jpg") %></div>
-	</div>
+					<div class="row justify-content-md-left">
+						<div class="col-md-4"><strong>Image</strong></div>
+						<div class="col-md-6"><%= image_tag attachment_url(t, :image, :fill, 100, 100, format: "jpg") %></div>
+					</div>
 
-	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Post by</strong></div>
-		<div class="col-md-6"><%=t.user.email %></div>
-	</div>
+					<div class="row justify-content-md-left">
+						<div class="col-md-4"><strong>Post by</strong></div>
+						<div class="col-md-6"><%=t.user.email %></div>
+					</div>
 
-	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Post at</strong></div>
-		<div class="col-md-6"><%=time_ago_in_words(t.created_at) %> ago</div>
-	</div>
-
+					<div class="row justify-content-md-left">
+						<div class="col-md-4"><strong>Post at</strong></div>
+						<div class="col-md-6"><%=time_ago_in_words(t.created_at) %> ago</div>
+					</div>
 	
-	
-</div><br>
-		<% end %>
+				</div>
+				<br>
 			<% end %>
+
 		<% end %>
 
 	</div>
