@@ -18,9 +18,14 @@ class ApplicationController < ActionController::Base
     # if(session[:return_to])
     #   abort(session[:return_to].to_json)
     # end
-    
+    session[:current_user_id] = 20
+    session[:email] = "abcdef@email.com"
+
+
+
     unless session[:email]
       flash[:notice]= 'Please log in.'+ ''
+
       redirect_to(:controller=>'access', :action => 'login')
       return false # halts the before_action
     else

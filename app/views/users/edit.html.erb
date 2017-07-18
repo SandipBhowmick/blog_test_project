@@ -92,15 +92,19 @@
 	}
 
 </script>
-<div class="new user">
+<div class="edit user">
   <h2>User profile edit</h2>
   		<%= form_for @user do |f| %>
  			<%= render(:partial =>"form", :locals => {:f => f}) %>
  				<div class="row justify-content-md-center">
-	    			<div class="col col-md-2">
+	    			<div class="col col-md-5" style="text-align: right;">
+						<%= link_to("change password", {:controller => 'users',:action => 'password'}) %>
+	    			</div>
+	    			<div class="col col-md-7">
 						<%= submit_tag() %>
 	    			</div>
 				</div>
   		<% end %>
+  <br>		
   <%= link_to("Login", {:controller => 'access',:action => 'index'}) %>
 </div>

@@ -17,6 +17,8 @@ Rails.application.routes.draw do
       end
       
       member do
+        post 'change_password'
+        get 'password'
         post 'make_disapprove'
         post 'make_approve'
       end 
@@ -61,6 +63,7 @@ Rails.application.routes.draw do
     post 'posts/comments/soft_unpublish/:id(.:format)' => 'comments#soft_unpublish', as: 'posts_comments_soft_unpublish'
     get '/posts/:post_id/comments(.:format)' => 'posts#show'
     get 'follow_user(.:format)' => 'users#index'
+
 
     get 'access/api_log_in' => 'access#api_log_in', as: 'api_log_in'
     # get 'users/api_log_in' => 'users#api_log_in', as: 'api_log_in_users'

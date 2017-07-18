@@ -25,15 +25,7 @@ class UsersController < ApplicationController
 		@followers = Follow.where(:follower_id =>@user.id).pluck(:user_id)
 		# byebug
 		@posts=Post.where(:user_id => @followers)
-		# @followers.each do |t|
-			# @posts << Post.where(:user_id => @followers)
-
-		# end
-
-		# @follow_users = @user.follows
-		# @follow_users_post= @follow_users.user.posts
-		      # byebug
-		# @posts = 
+		
 	end
 
 	
@@ -47,7 +39,7 @@ class UsersController < ApplicationController
 	end
 
 	def create		 
-		@user=User.new(user_params)
+		@user=User.new(user_create_params)
 		if @user.save
 			flash[:notice]= "User registration successfully."
 			redirect_to user_login_path 
@@ -58,14 +50,10 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		 # abort(params.to_json)
-
 		@user=User.find(params[:id])
 		if (params[:state_id])
 			@user_state_id = params[:state_id]			
-		end
-		# params[:user][:interest]= 	
-			
+		end		
 	end
 
 	def update
@@ -73,15 +61,62 @@ class UsersController < ApplicationController
 		if (params[:state_id])
 			@user_state_id = params[:state_id]			
 		end
-		 # abort(params.to_json)
-		if @user.update_attributes(user_params)
+		# change_params = user_params.clone
+		# user_params.delete :password
+		# user_params.delete :password_confirmation		
+		# abort(user_params.to_json)
+		
+		if @user.update_attributes(user_update_params)
 			flash[:notice]= "User details updated successfully."
-			redirect_to user_path(session[:current_user_id])
+			redirect_to user_path(session[:current_user_id])			
 		else
 			flash[:notice] = "something wrong."
 			render 'edit'
 		end 
 	end
+
+
+	def password
+		@user=User.find(params[:id])
+	end
+
+	def change_password
+		@user=User.find(params[:id])
+
+		# abort(params.inspect)
+		  # byebug
+		if ((user_password_params[:password].eql? user_password_params[:password_confirmation]) && (user_password_params[:password].length > 6 && user_password_params[:password].length < 16)) 
+
+			if @user.update_attributes(user_password_params)
+				flash[:notice]= "User password updated successfully."				
+				# byebug
+				redirect_to  access_logout_path
+			end
+		else
+			# byebug
+			if(!(user_password_params[:password].eql?user_password_params[:password_confirmation]))
+				# byebug
+				flash[:notice] = "Password does not match the confirm password."
+				# byebug
+			end
+
+			if(user_password_params[:password].length == 0 )
+				# byebug
+				flash[:notice] = "Password can't be blank."
+				# byebug
+			end
+
+			if(user_password_params[:password].length < 6 || user_password_params[:password].length > 16)
+				# byebug
+				flash[:notice] = "Password must be of minimum 6 characters and maximum 16 characters length  ."
+				# byebug
+			end
+			# byebug
+			redirect_to  password_user_path(@user)
+		end
+	end
+
+
 
 
 
@@ -236,8 +271,22 @@ class UsersController < ApplicationController
     	end
 	end
 
+	def user_password_params	
+		# params[:user].only(:password,:password_confirmation)	
+		# params[:user].delete [:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :profile_image, :is_approve]			
+		params.require(:user).permit(:password,:password_confirmation)
+	end
 
-	def user_params		
+	def user_create_params	
+		
+		params[:user][:interest]=(params[:user][:interest]).to_json		
+		params.require(:user).permit(:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :password, :profile_image,:password_confirmation, :is_approve)
+	end
+	
+
+	def user_update_params	
+		params[:user].delete :password
+		params[:user].delete :password_confirmation
 		params[:user][:interest]=(params[:user][:interest]).to_json		
 		params.require(:user).permit(:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :password, :profile_image,:password_confirmation, :is_approve)
 	end

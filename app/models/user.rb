@@ -14,9 +14,9 @@ class User < ActiveRecord::Base
                 format: { with: VALID_EMAIL_REGEX }, 
                 uniqueness: { case_sensitive: false }
 	
-    validates :password,  length: { in: 6..16 } ,allow_blank: false
+    validates :password,  length: { in: 6..16 } ,allow_blank: false, :on => [:create]
     validates :password_confirmation, 
-            :presence=>true, :if => :password_digest_changed?          
+            :presence=>true, :if => :password_digest_changed?, :on => [:create]          
     has_secure_password
     # validates_confirmation_of :password
 

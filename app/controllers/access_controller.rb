@@ -47,6 +47,8 @@ class AccessController < ApplicationController
         redirect_to(:action => 'login')
       end
     else
+      # session[:current_user_id] = 20
+      # session[:email] = "abcdef@email.com"
       flash[:notice] = "Invalid email/password combination."
       redirect_to(:action => 'login')
     end
