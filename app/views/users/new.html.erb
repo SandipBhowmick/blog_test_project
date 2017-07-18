@@ -1,8 +1,4 @@
 <script type="text/javascript">
-
-	
-
-
 	$(window).load(function () {
 		if($(user_country_id).val())
 		{
@@ -58,16 +54,16 @@
 
 
 
-<%= render_breadcrumbs %>
+
 
 <div class="new user">
   <h2>User Registration</h2>
 
-  		<%= form_for @user do |f| %>
- 		<%= render(:partial =>"form", :locals => {:f => f}) %>
+  	<%= form_for @user do |f| %>
+ 	<%= render(:partial =>"form", :locals => {:f => f}) %>
  	<div class="row justify-content-md-center">
 	    <div class="col col-md-2">
-			<%= submit_tag("Register") %>
+			<%= submit_tag() %>
 	    </div>
 	</div>
 

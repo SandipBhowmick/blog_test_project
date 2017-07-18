@@ -57,6 +57,34 @@ class UsersController < ApplicationController
 		end 
 	end
 
+	def edit
+		 # abort(params.to_json)
+
+		@user=User.find(params[:id])
+		if (params[:state_id])
+			@user_state_id = params[:state_id]			
+		end
+		# params[:user][:interest]= 	
+			
+	end
+
+	def update
+		@user=User.find(params[:id])
+		if (params[:state_id])
+			@user_state_id = params[:state_id]			
+		end
+		 # abort(params.to_json)
+		if @user.update_attributes(user_params)
+			flash[:notice]= "User details updated successfully."
+			redirect_to user_path(session[:current_user_id])
+		else
+			flash[:notice] = "something wrong."
+			render 'edit'
+		end 
+	end
+
+
+
 	def get_states
     	states = State.where('country_id = ?', params[:id]).order('state_name ASC')
     	result = {'res' => states, 'message' => 'All states.'}    

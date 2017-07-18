@@ -6,15 +6,15 @@ class User < ActiveRecord::Base
 	validates :profile_image, presence: { message: "selection is required" }
 	validates :gender, presence: { message: "selection is required" }
 	validates :country_id, presence: { message: "selection is required" }
-	validates :state_id, presence: { message: "selection is required" }
-	validate  :interest_validate, :on => :create
+	validates :state_id, presence: { message: "selection is required" } 
+	validate  :interest_validate, :on => [:create, :update]
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
 	validates :email, presence: true, 
                 format: { with: VALID_EMAIL_REGEX }, 
                 uniqueness: { case_sensitive: false }
 	
-    validates :password,  length: { in: 6..16 } ,allow_blank: true
+    validates :password,  length: { in: 6..16 } ,allow_blank: false
     validates :password_confirmation, 
             :presence=>true, :if => :password_digest_changed?          
     has_secure_password

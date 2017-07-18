@@ -8,8 +8,9 @@
 		<div class="col-8 col-md-4"><%= f.text_field(:last_name, placeholder: "Enter Your Last Name") %></div>
 	</div>
 	<div class="row justify-content-md-left">
-		<div class="col col-md-4"><%=f.label(:profile_image, "Selece your profile image")%></div>
-		<div class="col-8 col-md-4"><%= f.attachment_field :profile_image %></div>
+		<div class="col col-md-4"><%=f.label(:profile_image, "Selece your profile image")%> Old miage : </div>
+		<div class="col-4 col-md-4"><% if @user.profile_image_id? %><%= image_tag attachment_url(@user, :profile_image, :fill, 95, 95, format: "jpg") %> <% end %><%= f.attachment_field :profile_image %></div>
+		<div class="col-4 col-md-4"></div>
 	</div>
 	<div class="row justify-content-md-left">
 		<div class="col col-md-4"><%=f.label(:gender, "Select Gender")%></div>
@@ -25,11 +26,9 @@
 		<div class="col col-md-4"><%= f.select(:state_id,options_for_select([]),:prompt => 'Select One') %> </div>
 	</div>
 	<div class="row justify-content-md-left">
-		<div class="col col-md-4"><%=f.label(:interest, "Interest")%></div>
-		<div class="col col-md-4"><% User::GET_INTEREST.each do |a_value| %>		
-				
-				<%= f.check_box(:interest, { :multiple => true }, a_value[1]) %><label for="user_interest_<%= a_value[1] %>"><%= a_value[0]%></label>
-				
+		<div class="col col-md-4"><%=f.label(:interest, "Interest")%> </div>
+		<div class="col col-md-4"><% User::GET_INTEREST.each do |a_value| %>
+				<%= f.check_box(:interest, { :multiple => true }, a_value[1]) %><label for="user_interest_<%= a_value[1] %>"><%= a_value[0]%></label>				
 		<% end %>
 		</div>
 	</div>

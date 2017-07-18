@@ -1,0 +1,106 @@
+<script type="text/javascript">
+	$(window).load(function () {
+		if($(user_country_id).val())
+		{
+			 data_from_state1();
+		}
+	});
+
+	$(document).ready(function(){
+		$("#user_country_id").on('change',function(){			
+			data_from_state();		
+		});
+		 data_from_state1();
+	});
+
+	function data_from_state() {
+		$.ajax({          
+		type: "get",
+		url: "<%= get_states_path %>",
+		
+		data: {"id" : $(user_country_id).val()},
+			success: function(r){
+				
+				if(r.res.length)
+				{
+					
+					$("#user_state_id").empty();
+					$("#user_state_id").append("<option value='' >Select one state</option>");
+					
+					// $("#user_state_id").append("<option value="" disabled selected>"+"Select one state"+"</placeholder>");
+					// $("#user_state_id").append("<option disabled selected value>"+"Select one state"+"</option>");
+					
+					
+						$.each(r.res, function(key, value){
+							
+								$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")
+						      
+							
+
+						});	
+
+						
+					$('select[name="user[state_id]"]').val(<%= j @state_js %>);		
+				
+				}
+				else
+				{
+					$("#user_state_id").empty();
+					$("#user_state_id").append("<option value=''>Select one state</option>");		
+				}
+			}, 
+		});
+	}
+
+		function data_from_state1() {
+		$.ajax({          
+		type: "get",
+		url: "<%= get_states_path %>",
+		
+		data: {"id" : $(user_country_id).val()},
+			success: function(r){
+				
+				if(r.res.length)
+				{
+					
+					$("#user_state_id").empty();
+					// $("#user_state_id").append("<option value='' >Select one state</option>");
+					
+					// $("#user_state_id").append("<option value="" disabled selected>"+"Select one state"+"</placeholder>");
+					// $("#user_state_id").append("<option disabled selected value>"+"Select one state"+"</option>");
+					
+					
+						$.each(r.res, function(key, value){
+							
+								$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")
+						      
+							
+
+						});	
+
+						
+					$('select[name="user[state_id]"]').val(<%= j @state_js %>);		
+				
+				}
+				else
+				{
+					$("#user_state_id").empty();
+					// $("#user_state_id").append("<option value=''>Select one state</option>");		
+				}
+			}, 
+		});
+	}
+
+</script>
+<div class="new user">
+  <h2>User profile edit</h2>
+  		<%= form_for @user do |f| %>
+ 			<%= render(:partial =>"form", :locals => {:f => f}) %>
+ 				<div class="row justify-content-md-center">
+	    			<div class="col col-md-2">
+						<%= submit_tag() %>
+	    			</div>
+				</div>
+  		<% end %>
+  <%= link_to("Login", {:controller => 'access',:action => 'index'}) %>
+</div>
