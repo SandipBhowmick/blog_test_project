@@ -1,17 +1,59 @@
 <script type="text/javascript">
+
+
 	$(window).load(function () {
 		if($(user_country_id).val())
 		{
+			
 			 data_from_state1();
+			 
+			 
 		}
+		// alert("abcd");
+		data_from_interest();
 	});
 
 	$(document).ready(function(){
 		$("#user_country_id").on('change',function(){			
-			data_from_state();		
+			data_from_state();
+			data_from_interest();
+			 		
 		});
-		 data_from_state1();
+		data_from_interest();
+		data_from_state1();
 	});
+
+
+		function data_from_interest() {
+		$.ajax({          
+		type: "get",
+		url: "<%= get_interest_user_path %>",
+		
+		data: {},
+			success: function(t){
+				
+				if(t.res.length)
+				{	
+
+					// alert(t.res); 
+
+					for (var i=0;i<=t.res.length;i++){
+
+					
+						$("input[value='" + t.res[i] + "']").prop('checked', true);
+					}
+			 		// $('#user_interest_1').prop('checked', true);
+				}
+				else
+				{
+		
+				}
+			}, 
+		});
+	}
+
+
+
 
 	function data_from_state() {
 		$.ajax({          

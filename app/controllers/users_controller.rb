@@ -259,6 +259,14 @@ class UsersController < ApplicationController
 	helper_method :is_admin?
 
 
+	def get_interest
+		@user=User.find(session[:current_user_id])
+		result = {'res' => @user.interest, 'message' => 'User interests.'}	    
+	    render json: result, status: 200  
+
+	end
+
+
 	private
 
 	def user_login?

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       end
       
       member do
+        get 'get_interest'
         post 'change_password'
         get 'password'
         post 'make_disapprove'
