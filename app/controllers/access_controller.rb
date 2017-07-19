@@ -59,7 +59,10 @@ class AccessController < ApplicationController
     session[:email] = nil 
     session[:current_user_id] = nil 
     session[:return_to] = nil 
-  	flash[:notice] = "Logged out"
+    if(params[:authorized])
+      flash[:authorized] = params[:authorized]
+    end
+    flash[:notice] = "Logged out"
   	redirect_to(:action => "login")
   end   
 

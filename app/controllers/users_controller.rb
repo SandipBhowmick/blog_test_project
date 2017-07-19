@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 	before_action :confirm_logged_in_as_admin, :only =>[:approve_users]
 	before_action :confirm_logged_in, :only =>[:follow_user, :unfollow_user,:edit, :update, :password,:change_password]
 	before_action :user_login? , :only =>[:new,:create]
+	before_action :find_login_user_data_verification,:only =>[:edit,:update,:password,:change_password]
 
 	def home
 		@user=User.new()
@@ -19,12 +20,18 @@ class UsersController < ApplicationController
 
 	def show		
 		@user = User.find(params[:id])
-		@country = @user.country
-		@state = @user.state
-		@follow=Follow.new()
-		@followers = Follow.where(:follower_id =>@user.id).pluck(:user_id)
-		# byebug
-		@posts=Post.where(:user_id => @followers)
+		# if (find_login_user_data_verification(@user.id,session[:current_user_id]))
+
+			@country = @user.country
+			@state = @user.state
+			@follow=Follow.new()
+			@followers = Follow.where(:follower_id =>@user.id).pluck(:user_id)
+			# byebug
+			@posts=Post.where(:user_id => @followers)
+		# else
+		# 	msg = "You are not authorized to access other persons data ."
+		# 	redirect_to access_logout_path(:authorized => msg)
+		# end
 		
 	end
 
@@ -49,23 +56,18 @@ class UsersController < ApplicationController
 		end 
 	end
 
-	def edit
-		@user=User.find(session[:current_user_id])
+	def edit		
 		if (params[:state_id])
 			@user_state_id = params[:state_id]			
 		end		
 	end
 
 	def update
-		@user=User.find(session[:current_user_id])
+		
 		if (params[:state_id])
 			@user_state_id = params[:state_id]			
 		end
-		# change_params = user_params.clone
-		# user_params.delete :password
-		# user_params.delete :password_confirmation		
-		# abort(user_params.to_json)
-		
+	
 		if @user.update_attributes(user_update_params)
 			flash[:notice]= "User details updated successfully."
 			redirect_to user_path(session[:current_user_id])			
@@ -73,46 +75,45 @@ class UsersController < ApplicationController
 			flash[:notice] = "something wrong."
 			render 'edit'
 		end 
+		
 	end
 
 
-	def password
-		@user=User.find(session[:current_user_id])
+	def password		
 	end
 
-	def change_password
-		@user=User.find(session[:current_user_id])
-
-		# abort(params.inspect)
-		  # byebug
+	def change_password	
+		
 		if ((user_password_params[:password].eql? user_password_params[:password_confirmation]) && (user_password_params[:password].length > 6 && user_password_params[:password].length < 16)) 
 
 			if @user.update_attributes(user_password_params)
-				flash[:notice]= "User password updated successfully."				
-				# byebug
+				flash[:notice]= "User password updated successfully."			
 				redirect_to  access_logout_path
 			end
-		else
-			# byebug
+		else			
 			if(!(user_password_params[:password].eql?user_password_params[:password_confirmation]))
-				# byebug
 				flash[:notice] = "Password does not match the confirm password."
-				# byebug
 			end
 
-			if(user_password_params[:password].length == 0 )
-				# byebug
-				flash[:notice] = "Password can't be blank."
-				# byebug
+			if(user_password_params[:password].length == 0 )				
+				flash[:notice] = "Password can't be blank."				
 			end
 
 			if(user_password_params[:password].length < 6 || user_password_params[:password].length > 16)
-				# byebug
 				flash[:notice] = "Password must be of minimum 6 characters and maximum 16 characters length  ."
-				# byebug
-			end
-			# byebug
+			end			
 			redirect_to  password_user_path(@user)
+		end		
+	end
+
+	def find_login_user_data_verification 
+		@user = User.find(params[:id])
+		cuser_id = session[:current_user_id]
+		if (@user.id == cuser_id)
+			true
+		else
+			flash[:notice]  = "You are not authorized to access other persons data ."
+			redirect_to users_path
 		end
 	end
 

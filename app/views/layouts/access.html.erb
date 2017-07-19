@@ -30,8 +30,17 @@
     <% if alert %>
     <p class="alert alert-danger"><%= alert %></p>
   <% end %>
+  
+  <% if !flash.now[:authorized].blank? %>
+  <div class="notice"><%= flash.now[:authorized] %></div>
+  <% end %>
+  <% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+  <% end %>
+
 </div>
 <%= link_to("Home", root_path) %>
+
 
 <%= yield %>
 
