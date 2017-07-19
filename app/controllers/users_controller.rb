@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
 	layout "user"
 	
-	# before_action :confirm_logged_in, :except => [:home,:new,:create,:get_states,:index, :show, :follow_details]
+	
 	before_action :store_return_to
 	before_action :confirm_logged_in_as_admin, :only =>[:approve_users]
-	before_action :confirm_logged_in, :only =>[:follow_user, :unfollow_user]
+	before_action :confirm_logged_in, :only =>[:follow_user, :unfollow_user,:edit, :update, :password,:change_password]
 	before_action :user_login? , :only =>[:new,:create]
 
 	def home
@@ -50,14 +50,14 @@ class UsersController < ApplicationController
 	end
 
 	def edit
-		@user=User.find(params[:id])
+		@user=User.find(session[:current_user_id])
 		if (params[:state_id])
 			@user_state_id = params[:state_id]			
 		end		
 	end
 
 	def update
-		@user=User.find(params[:id])
+		@user=User.find(session[:current_user_id])
 		if (params[:state_id])
 			@user_state_id = params[:state_id]			
 		end
@@ -77,11 +77,11 @@ class UsersController < ApplicationController
 
 
 	def password
-		@user=User.find(params[:id])
+		@user=User.find(session[:current_user_id])
 	end
 
 	def change_password
-		@user=User.find(params[:id])
+		@user=User.find(session[:current_user_id])
 
 		# abort(params.inspect)
 		  # byebug
