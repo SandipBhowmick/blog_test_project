@@ -13,6 +13,7 @@ class UsersController < ApplicationController
 	end
 
 	def index
+		# byebug
 		@users=User.all().order('first_name ASC')
 
 	end

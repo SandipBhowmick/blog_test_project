@@ -39,16 +39,22 @@ class AccessController < ApplicationController
       if authorized_user.is_approve
         # u = UserSession.find_by_id(authorized_user.id)
         session[:email] = authorized_user.email
-        session[:current_user_id] = authorized_user.id
+        session[:current_user_id] = authorized_user.id       
+
         if(!UserSession.find_by_user_id(authorized_user.id))
-          UserSession.new(:user_id => authorized_user.id).save          
+          UserSession.new(:user_id => authorized_user.id, :system_detail => encode_system_details).save          
           # cookies[:current_user_id] = authorized_user.id
           flash[:notice] = "You are now logged in."
-          byebug
+          # byebug
           redirect_back_or_default(root_path)
         else
-          byebug
-          logout
+          user_session =UserSession.find_by_user_id(authorized_user.id)
+          if (user_session.system_detail != encode_system_details)
+            user_session.update_attributes(:system_detail => encode_system_details)
+            redirect_back_or_default(root_path)
+          else
+            redirect_back_or_default(root_path)
+          end
 
         end
       else
@@ -66,7 +72,7 @@ class AccessController < ApplicationController
   def logout
     # mark user as logged out
     # byebug
-    byebug
+    # byebug
     session[:email] = nil 
     UserSession.find_by_user_id(session[:current_user_id]).destroy    
     session[:current_user_id] = nil 

@@ -68,8 +68,9 @@ ActiveRecord::Schema.define(version: 20170720052541) do
 
   create_table "user_sessions", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "system_detail"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "users", force: :cascade do |t|
