@@ -1,13 +1,19 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception 
 
-  
-  
+
+  before_action :login_or_not
 
 
   private 
+
+  def login_or_not
+    if(session[:current_user_id])
+      confirm_logged_in
+    end
+  end
 
   def encode_system_details
     system_detail = request.user_agent + request.ip
@@ -19,16 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def confirm_logged_in
-
-    # if(session[:return_to])
-    #   abort(session[:return_to].to_json)
-    # end
-    # session[:current_user_id] = 20
-    # session[:email] = "abcdef@email.com"
-
     user_session = UserSession.find_by_user_id(session[:current_user_id])
-    
-
     unless user_session
       flash[:notice]= 'Please log in.'+ ''
       session[:email] = nil
@@ -36,7 +33,7 @@ class ApplicationController < ActionController::Base
       redirect_to(:controller=>'access', :action => 'login')
       return false # halts the before_action
     else
-      if (user_session.system_detail!= encode_system_details )
+      if(user_session.system_detail!= encode_system_details )
         flash[:notice]= 'Please log in.'+ ''
         session[:email] = nil
         session[:current_user_id] = nil
@@ -50,9 +47,6 @@ class ApplicationController < ActionController::Base
 
   def confirm_logged_in_as_admin
     store_return_to
-
-    
-
     user_session = UserSession.find_by_user_id(session[:current_user_id])
     if(!user_session)
       session[:email] = nil
