@@ -36,12 +36,21 @@ class AccessController < ApplicationController
       end
     end
     if authorized_user  
-      if authorized_user.is_approve   
+      if authorized_user.is_approve
+        # u = UserSession.find_by_id(authorized_user.id)
         session[:email] = authorized_user.email
         session[:current_user_id] = authorized_user.id
-        # cookies[:current_user_id] = authorized_user.id
-        flash[:notice] = "You are now logged in."
-        redirect_back_or_default(root_path)
+        if(!UserSession.find_by_user_id(authorized_user.id))
+          UserSession.new(:user_id => authorized_user.id).save          
+          # cookies[:current_user_id] = authorized_user.id
+          flash[:notice] = "You are now logged in."
+          byebug
+          redirect_back_or_default(root_path)
+        else
+          byebug
+          logout
+
+        end
       else
          flash[:notice] = "Admin approval is pending. Please contact admin."
         redirect_to(:action => 'login')
@@ -56,9 +65,13 @@ class AccessController < ApplicationController
 
   def logout
     # mark user as logged out
+    # byebug
+    byebug
     session[:email] = nil 
+    UserSession.find_by_user_id(session[:current_user_id]).destroy    
     session[:current_user_id] = nil 
-    session[:return_to] = nil 
+    session[:return_to] = nil
+
     if(params[:authorized])
       flash[:authorized] = params[:authorized]
     end

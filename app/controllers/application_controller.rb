@@ -21,11 +21,12 @@ class ApplicationController < ActionController::Base
     # session[:current_user_id] = 20
     # session[:email] = "abcdef@email.com"
 
+    user_session = UserSession.find_by_user_id(session[:current_user_id])
 
-
-    unless session[:email]
+    unless user_session
       flash[:notice]= 'Please log in.'+ ''
-
+      session[:email] = nil
+      session[:current_user_id] = nil
       redirect_to(:controller=>'access', :action => 'login')
       return false # halts the before_action
     else
@@ -34,7 +35,13 @@ class ApplicationController < ActionController::Base
   end
 
   def confirm_logged_in_as_admin
-    session[:return_to]=request.url
+    store_return_to
+    user_session = UserSession.find_by_user_id(session[:current_user_id])
+    if(!user_session)
+      session[:email] = nil
+      session[:current_user_id] = nil
+    end
+
     user = User.find_by_id(session[:current_user_id])
     if(user!=nil)
       if(!user.is_admin?)
