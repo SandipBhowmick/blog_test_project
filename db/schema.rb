@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170720052541) do
+ActiveRecord::Schema.define(version: 20170721061406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,12 +52,15 @@ ActiveRecord::Schema.define(version: 20170720052541) do
   create_table "posts", force: :cascade do |t|
     t.string   "title"
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "publish",    default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "publish",     default: false
     t.string   "body"
     t.string   "image_id"
+    t.integer  "category_id"
   end
+
+  add_index "posts", ["category_id"], name: "index_posts_on_category_id", using: :btree
 
   create_table "states", force: :cascade do |t|
     t.integer  "country_id"
@@ -91,4 +94,5 @@ ActiveRecord::Schema.define(version: 20170720052541) do
     t.boolean  "is_approve",       default: false
   end
 
+  add_foreign_key "posts", "categories"
 end

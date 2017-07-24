@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       end 
     end
     resources :posts do
+        
+      
       resources :comments, except: [:index,:show]
       # resources :comments do
       #    get '/posts/:post_id/comments(.:format)', to: 'posts#show'        
@@ -69,6 +71,9 @@ Rails.application.routes.draw do
     get 'access/api_log_in' => 'access#api_log_in', as: 'api_log_in'
     # get 'users/api_log_in' => 'users#api_log_in', as: 'api_log_in_users'
     # match ':controller(/:action(/:id))', :via => [:get, :post]
+    get 'get_sub_category(.:format)' => 'posts#get_sub_category', as: 'get_sub_category'
+
+
     resources :access
     # resources :categories
     # get 'categories/index' => 'categories#index'

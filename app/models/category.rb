@@ -1,9 +1,11 @@
 class Category < ActiveRecord::Base
 
+  has_many :subcategories, :class_name => "Category", :foreign_key => "parent_id", :dependent => :destroy
 	validates :name,:user_id, :presence => true
 
 	validate  :name_uniqueness_validate, :on => :create
 	belongs_to :user
+  has_many  :posts
 	validate  :name_uniqueness_validate_two, :on => :update
 
 

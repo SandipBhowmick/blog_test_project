@@ -2,30 +2,36 @@
 <div class="container">
 	<div class="row justify-content-md-left">
 		
-		<div class="col-md-2">Title</div>	
-		<div class="col-md-2">Body</div>
-		<div class="col-md-1">Image</div>				
-		<div class="col-md-2">Post by </div>
-		<div class="col-md-2">Post at</div>
-		<div class="col-md-3">Action <br></div>
+			<div class="col-md-1"><strong>Title</strong></div>	
+			<div class="col-md-2"><strong>Body</strong></div>
+			<div class="col-md-1"><strong>Image</strong></div>
+			<div class="col-md-1"><strong>Category</strong></div>
+			<div class="col-md-1"><strong>Sub-category</strong></div>			
+			<div class="col-md-2"><strong>Post by </strong></div>
+			<div class="col-md-2"><strong>Post at</strong></div>
+			<div class="col-md-2"><strong>Action </strong></div>
+		
 	</div>
+	<div class="row justify-content-md-left"><br></div>
 	<% @posts.each do |u| %>
 		<% if u!= nil %>
 			<% if u.publish %>
 				<div class="row justify-content-md-left">
 					
-					<div class="col-md-2"><strong><%= u.title %></strong></div>	
-					<div class="col-md-2"><strong><%= u.body %></strong></div>
+					<div class="col-md-1"><%= u.title %></div>	
+					<div class="col-md-2"><%= u.body %></div>
 						
 					<div class="col-md-1"><%= image_tag attachment_url(u, :image, :fill, 50, 50, format: "jpg") %></div>
-								
+					<div class="col-md-1"><%= find_category_name(u) %></div>	
+					<div class="col-md-1"><%= find_sub_category_name(u) %></div>	
 					<div class="col-md-2"><%= u.user.email %></div>	
 					
 					<div class="col-md-2"><%= time_ago_in_words(u.created_at) %> ago</div>
-					<div class="col-md-3"><%= link_to("Show", post_path(u.id)) %>&nbsp;<% if u.user_id == session[:current_user_id] %><%= link_to("Edit", edit_post_path(u.id)) %>&nbsp;<%= link_to("Delete",post_path(u.id),data: { confirm: "Are you sure?" }, method: :delete) %>
+					<div class="col-md-2"><%= link_to("Show", post_path(u.id)) %>&nbsp;<% if u.user_id == session[:current_user_id] %><%= link_to("Edit", edit_post_path(u.id)) %>&nbsp;<%= link_to("Delete",post_path(u.id),data: { confirm: "Are you sure?" }, method: :delete) %>
 					<% end %><% if is_admin?(session[:current_user_id])  %> &nbsp; <%= link_to("Un-publish",posts_soft_publish_path(u.id), html_options = {method: :post}) %><% end %>
 					</div>
 				</div>
+				<div class="row justify-content-md-left"><br></div>
 			<% end %>
 		<% end %>
 	<% end %>
@@ -37,13 +43,15 @@
 			
 				<div class="row justify-content-md-left">
 					
-					<div class="col-md-2"><strong><%= u.title %></strong></div>	
+					<div class="col-md-1"><strong><%= u.title %></strong></div>	
 					<div class="col-md-2"><strong><%= u.body %></strong></div>
-					<div class="col-md-1"><%= image_tag attachment_url(u, :image, :fill, 50, 50, format: "jpg") %></div>			
+					<div class="col-md-1"><%= image_tag attachment_url(u, :image, :fill, 50, 50, format: "jpg") %></div>
+					<div class="col-md-1"><%= find_category_name(u) %></div>	
+					<div class="col-md-1"><%= find_sub_category_name(u) %></div>			
 					<div class="col-md-2"><%= u.user.email %></div>	
 					
 					<div class="col-md-2"><%= time_ago_in_words(u.created_at) %> ago</div>
-					<div class="col-md-3"><%= link_to("Show", post_path(u.id)) %><% if (u.user_id == session[:current_user_id]) %> &nbsp;<%= link_to("Edit", edit_post_path(u.id)) %>&nbsp;<%= link_to("Delete",post_path(u.id),data: { confirm: "Are you sure?" }, method: :delete) %><% end %><% if is_admin?(session[:current_user_id])  %>&nbsp;<%= link_to("Publish",posts_soft_unpublish_path(u.id), html_options = {method: :post}) %><% end %></div>
+					<div class="col-md-2"><%= link_to("Show", post_path(u.id)) %><% if (u.user_id == session[:current_user_id]) %> &nbsp;<%= link_to("Edit", edit_post_path(u.id)) %>&nbsp;<%= link_to("Delete",post_path(u.id),data: { confirm: "Are you sure?" }, method: :delete) %><% end %><% if is_admin?(session[:current_user_id])  %>&nbsp;<%= link_to("Publish",posts_soft_unpublish_path(u.id), html_options = {method: :post}) %><% end %></div>
 				</div>
 			<% end %>
 					

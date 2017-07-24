@@ -1,14 +1,23 @@
 <%= form_for @post do |f| %>
+ 
    	<div><%=f.label(:title, "Post Title")%></div>
   	<div><%= f.text_field(:title, placeholder: "Enter post title") %></div>
 
   	<div><%=f.label(:body, "Post body")%></div>
   	
-  	<div><%= f.attachment_field :image %></div>
-  	<div><%= f.text_field(:body, placeholder: "Enter text for the post body") %> </div>
+  	<div><% if @post.image %> <%= image_tag attachment_url(@post, :image, :fill, 95, 95, format: "jpg")%> <% end %></div>
+
+    <div><%= f.attachment_field :image %></div>
+
+    <div><%= f.text_field(:body, placeholder: "Enter text for the post body") %> </div>
+
+    <div><%= f.label :post_type %></div>
+
+    <div><%= f.select(:category_id,@categories.collect {|p| [p.name, p.id]},:prompt => 'Select category') %> </div>
+    <div><%= f.select(:subcategory_id,options_for_select([]),:prompt => 'Select sub-category') %> </div>
   	
       <div class="form-buttons">
   		<%= submit_tag() %>
       </div>
-
+    
   <% end %>

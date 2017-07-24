@@ -1,3 +1,83 @@
+<script type="text/javascript">
+	$(window).load(function () {
+		
+		if (<%= @find_category.id  %>)
+		{
+			$('#post_category_id option[value=<%=  @find_category.id %>]').prop('selected', true);
+			
+			$("#post_subcategory_id").removeAttr("disabled");
+			 data_sub_categories();
+			 // $('[id =post_subcategory_id]').val( 54 );
+			 // alert(<%=  @post.category_id %>);
+			// $('#post_subcategory_id option[value=<%=  @post.category_id %>]').prop('selected', true);
+		}
+		// $('#post_subcategory_id').prop('disabled', 'disabled');
+		// if($("#post_category_id").val())
+		// {
+		// 	data_sub_categories();
+		// }
+	});
+
+	$(document).ready(function(){
+		// alert("test");
+		// alert(<%= @find_category.id %>);
+		if (<%= @find_category.id %>)
+		{
+			$('#post_category_id option[value=<%=  @find_category.id %>]').prop('selected', true);
+			$("#post_subcategory_id").removeAttr("disabled");
+			  data_sub_categories();
+			 // alert(<%= @post.category_id %>);
+			 // $('select[id="post_subcategory_id"]').val(<%=  @post.category_id %>);	
+			 // $('[id =post_subcategory_id]').val( 54 );
+			// $('#post_subcategory_id option[value=<%= @post.category_id %>]').prop('selected', true);
+		}
+
+
+		// $('#post_subcategory_id').prop('disabled', 'disabled');
+		$("#post_category_id").on('change',function(){			
+			data_sub_categories();	
+			$("#post_subcategory_id").removeAttr("disabled");		
+		});
+	});
+	function data_sub_categories() {
+		$.ajax({          
+		type: "get",
+		url: "<%= get_sub_category_path %>",
+		
+		data: {"id" : $("#post_category_id").val()},
+			success: function(r){
+				// alert(JSON.stringify(r.res.length));
+				if(r.res.length)
+				{				
+					$("#post_subcategory_id").empty();
+					$("#post_subcategory_id").append("<option value=''>Select sub-category</option>");
+					$.each(r.res, function(key, value){
+						 // alert(JSON.stringify(value));
+						 if(value.id==<%= @post.category_id %>)	
+						 	{
+						 		$("#post_subcategory_id").append("<option value='" + value.id + "'>" + value.name +"</option>");	
+						 	}
+						 else
+						 	{
+						 		$("#post_subcategory_id").append("<option value='" + value.id + "'>" + value.name +"</option>");
+							}
+					});
+					// $('select[name="post[subcategory_id]"]').val(<%= j @state_js %>);
+					$('#post_subcategory_id option[value=<%=  @post.category_id %>]').prop('selected', true);						
+				}
+
+				else
+
+				{
+					$("#post_subcategory_id").empty();
+					$("#post_subcategory_id").append("<option value=''>Select sub-category</option>");
+					$('#post_subcategory_id').prop('disabled', 'disabled');		
+				}
+			}, 
+		});
+	}
+</script>
+
 <%= link_to("<< Back to List", root_path) %>
 
 <div class="new post">
