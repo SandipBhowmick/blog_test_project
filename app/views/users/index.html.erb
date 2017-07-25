@@ -5,11 +5,8 @@
 		<div class="col col-md-3">Name</div>	
 		<div class="col col-md-3">Email</div>				
 		<div class="col-4 col-md-3">Follow count <br></div>
-	</div>
-	<%#=  session[:current_user_id]   %>
+	</div>	
 	<% @users.each do |u| %>
-	
-	<%#=  u.id   %>
 		<% if session[:current_user_id]!= u.id %>
 			<div class="row justify-content-md-left">
 				
@@ -24,6 +21,4 @@
 			</div>
 		<% end %>
 	<% end %>
-
-</div>
-<div></div>
+</div><br>

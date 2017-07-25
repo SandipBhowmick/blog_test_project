@@ -1,21 +1,14 @@
 <script type="text/javascript">
 $(document).ready(function(){
-
 	$("#delete_collection").hide();
-
-	$("#categories_all_categories").change(function() { 
-
-
-		
+	$("#categories_all_categories").change(function() {		
 		var l = document.getElementsByClassName("accept_ctegory").length;
-		if($(this).is(":checked")) {
-			
+		if($(this).is(":checked")) {			
 			for(i=0;i<l;i++)
 			{
 				document.getElementsByClassName("accept_ctegory")[i].checked = true;
 			}
-			$("#delete_collection").show();
-			
+			$("#delete_collection").show();			
 		}
 		else
 		{
@@ -29,11 +22,8 @@ $(document).ready(function(){
 
 
 	$(".accept_ctegory").change(function() { 
-
 		var l = document.getElementsByClassName("accept_ctegory").length;
-		var check_count = $('.accept_ctegory:checked').size();  
-		// alert(check_count +"check_count");
-		// alert(l +"ctegory");
+		var check_count = $('.accept_ctegory:checked').size(); 		
 		if( check_count >= 0 ) {
 			$("#delete_collection").show();
 			if(check_count == l)
@@ -49,23 +39,15 @@ $(document).ready(function(){
 			$("#delete_collection").hide();
 			
 		}	
-		
-		
 	});
-
-
 });
 
 </script>
 <div class="container">
-
 <%= form_tag new_bulk_delete_path, method: :delete do %>
 <%= submit_tag "Delete checked",:id=> "delete_collection" %>
 	<div class="row justify-content-md-left">
-
-		<div class="col col-md-3">
-	  		
-	    	
+		<div class="col col-md-3">	    	
 			<%= check_box("categories_all", "categories") %>&nbsp;All
 		</div>	
 		<div class="col col-md-3">Category</div>				
@@ -73,7 +55,6 @@ $(document).ready(function(){
 	</div>	
 	 <% @categories.each do |c| %>
 		 <% if(c.parent_id == nil) %>
-
 			<div class="row justify-content-md-left">	
 				<div class="col col-md-3"><%= check_box_tag "category_ids[]", c.id,false, {:class =>'accept_ctegory'} %></div>				
 				<div class="col col-md-3"><%= c.name %> &nbsp;
@@ -85,28 +66,20 @@ $(document).ready(function(){
 						<% @categories.each do |d| %>
 							<% if(c.id==d.parent_id) %>
 								<tr>
-		  						<%= d.name %>
-														
+		  						<%= d.name %>									
 							&nbsp; <%= link_to("Show", {:action =>'show', :id => d.id}, :class => 'action show') %>
         				<%= link_to("Edit", {:action => 'edit',:id => d.id}, :class => 'action edit') %>
         				<%= link_to("Delete", category_path(d),:data => {:confirm => "You sure?",:method => "delete"})%><br></tr> </div>
         				<% end %>
 						<% end %>
 					</table>
-				</div>
-				
-				
+				</div>				
 			</div>
-		<% end %>
-		
+		<% end %>		
 	<% end %>
-	
-
 	<div class="row justify-content-md-left">
-		<div class="col col-md-4">						
-					
-		</div>	
-		
+		<div class="col col-md-4">				
+		</div>			
 	</div>
 </div>
 <% end %>

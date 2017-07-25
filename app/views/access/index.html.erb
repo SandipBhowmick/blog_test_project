@@ -1,13 +1,9 @@
-
-
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".btn-inverse").on('click',function(){
 		var a= $(this).text();		
 		data_from_state(a);
 	});
-
-
 	function data_from_state(a) {
 		a= a.toLowerCase();
 		$.ajax({          
@@ -24,10 +20,7 @@ $(document).ready(function(){
 	}
 });
 
-
 </script>
-
-
 <div class="menu">
 	<h2> Menu </h2>
 	<div class="idntity">Logged in as:<%= session[:email] %></div>
@@ -44,5 +37,3 @@ $(document).ready(function(){
 	</ul>
 </div>
 <div><% if session[:current_user_id] != nil %> <%= link_to("Logout", :action => 'logout') %> <% else %><%= link_to("Login", :action => 'login') %><% end %></div>
-
-

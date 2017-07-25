@@ -1,8 +1,4 @@
-<%# if @post.comment.errors.full_messages.any? %>
-  <%# @post.comments.errors.full_messages.each do |error_message| %>
-    <%#= error_message if @post.comments.errors.full_messages.first == error_message %> <br />
-  <%# end %>
-<%# end %>
+<br>
  <%= form_for([@post, @post.comments.build]) do |f| %>
 	<%= f.label :name %><br>
 	<%= f.text_field :name %><br>
@@ -30,9 +26,7 @@
   	<p class="alert alert-danger"><%= alert %></p>
 	<% end %>
 	<br>
-	<%= f.submit %>
-
-	
+	<%= f.submit %>	
 </div>
 </div>
 <% end %>

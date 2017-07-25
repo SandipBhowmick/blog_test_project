@@ -31,9 +31,7 @@
 					$("#post_subcategory_id").append("<option value='" + value.id + "'>" + value.name +"</option>")
 					});					
 				}
-
 				else
-
 				{
 					$("#post_subcategory_id").empty();
 					$("#post_subcategory_id").append("<option value=''>Select sub-category</option>");
@@ -44,14 +42,9 @@
 	}
 </script>
 
-
 <%= link_to("<< Back to List", root_path) %>
 
 <div class="new post">
   <h2>Create Post</h2>
-  <%= render(:partial =>"form") %>
-
- 
-    
+  <%= render(:partial =>"form") %>    
 </div>
-

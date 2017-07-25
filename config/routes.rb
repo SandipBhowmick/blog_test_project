@@ -1,16 +1,6 @@
 Rails.application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
   root 'users#home'
-
-   # get 'users/new' => 'users#new', as: 'new_user_registration' 
-   # post 'users/create' => 'users#create'
     resources :users do 
       collection do
         get 'approve_users'
@@ -27,31 +17,12 @@ Rails.application.routes.draw do
     resources :posts do
         collection do
         match 'search' => 'posts#search', via: [:get, :post], as: :search
-      end
-      
-      resources :comments, except: [:index,:show]
-      # resources :comments do
-      #    get '/posts/:post_id/comments(.:format)', to: 'posts#show'        
-      # end
+      end      
+      resources :comments, except: [:index,:show]      
     end
 
     resources :post_details
-      
-   
-
     resources :categories
-  
-    # resources :users do
-    #   resources :categories, only: [:index, :new, :create]
-    # end
-
-    # resources :access do 
-    #   get 'logout', on: :member
-    #   get 'login'
-    #   post 'attempt_login', on: :member
-      
-    # end
-
     get 'access/logout' => 'access#logout'
     get 'access/login' => 'access#login', as: 'user_login'
     get 'access/index' => 'access#index', as: 'user_menu'
@@ -70,64 +41,8 @@ Rails.application.routes.draw do
     get 'follow_user(.:format)' => 'users#index'
 
 
-    get 'access/api_log_in' => 'access#api_log_in', as: 'api_log_in'
-    # get 'users/api_log_in' => 'users#api_log_in', as: 'api_log_in_users'
-    # match ':controller(/:action(/:id))', :via => [:get, :post]
+    get 'access/api_log_in' => 'access#api_log_in', as: 'api_log_in'    
     get 'get_sub_category(.:format)' => 'posts#get_sub_category', as: 'get_sub_category'
 
-
-    resources :access
-    # resources :categories
-    # get 'categories/index' => 'categories#index'
-     
-    # post 'categories/new_category' => 'categories#create'
-    # get 'categories/new_category' => 'categories#new', as: 'new_category'
-    #match ':controller(/:action(/:id))', :via => [:get, :post]
-    #post 'create' => 'users#create'
-    #match ':controller/:action/:id', via: [:get, :post]
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+    resources :access   
 end

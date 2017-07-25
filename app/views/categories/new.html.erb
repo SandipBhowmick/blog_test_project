@@ -1,8 +1,6 @@
 <%= link_to("<< Back to List", root_path) %>
-
 <div class="new user">
   <h2>Create Category</h2>
-
   <%= form_for @category do |f| %>
  	<div><%=f.label(:name, "Category Name")%></div>
 	<div><%= f.text_field(:name, placeholder: "Enter a category name") %></div>
@@ -13,8 +11,5 @@
     <div class="form-buttons">
 		<%= submit_tag("Save") %>
     </div>
-
-  <% end %>
-  
+  <% end %>  
 </div>
-

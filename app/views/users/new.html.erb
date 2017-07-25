@@ -15,31 +15,17 @@
 	function data_from_state() {
 		$.ajax({          
 		type: "get",
-		url: "<%= get_states_path %>",
-		
+		url: "<%= get_states_path %>",		
 		data: {"id" : $(user_country_id).val()},
-			success: function(r){
-				
+			success: function(r){				
 				if(r.res.length)
-				{
-					
+				{					
 					$("#user_state_id").empty();
-					
-
-					$("#user_state_id").append("<option>"+"Select one state"+"</option>");
-					
-					
-						$.each(r.res, function(key, value){
-							
-								$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")
-						      
-							
-
-						});	
-
-						
+					$("#user_state_id").append("<option>"+"Select one state"+"</option>");					
+						$.each(r.res, function(key, value){							
+								$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")		
+						});							
 					$('select[name="user[state_id]"]').val(<%= j @state_js %>);		
-				
 				}
 				else
 				{
@@ -49,16 +35,9 @@
 			}, 
 		});
 	}
-
 </script>
-
-
-
-
-
 <div class="new user">
   <h2>User Registration</h2>
-
   	<%= form_for @user do |f| %>
  	<%= render(:partial =>"form", :locals => {:f => f}) %>
  	<div class="row justify-content-md-center">
@@ -66,7 +45,6 @@
 			<%= submit_tag() %>
 	    </div>
 	</div>
-
   <% end %>
   <%= link_to("Login", {:controller => 'access',:action => 'index'}) %>
 </div>

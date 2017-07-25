@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 	layout "user"
-	
-	
+		
 	before_action :store_return_to
 	before_action :confirm_logged_in_as_admin, :only =>[:approve_users]
 	before_action :confirm_logged_in, :only =>[:follow_user, :unfollow_user,:edit, :update, :password,:change_password]
@@ -12,32 +11,18 @@ class UsersController < ApplicationController
 		@user=User.new()
 	end
 
-	def index
-		# byebug
+	def index		
 		@users=User.all().order('first_name ASC')
-
-	end
-	
+	end	
 
 	def show		
 		@user = User.find(params[:id])
-		# if (find_login_user_data_verification(@user.id,session[:current_user_id]))
-
-			@country = @user.country
-			@state = @user.state
-			@follow=Follow.new()
-			@followers = Follow.where(:follower_id =>@user.id).pluck(:user_id)
-			# byebug
-			@posts=Post.where(:user_id => @followers)
-		# else
-		# 	msg = "You are not authorized to access other persons data ."
-		# 	redirect_to access_logout_path(:authorized => msg)
-		# end
-		
+		@country = @user.country
+		@state = @user.state
+		@follow=Follow.new()
+		@followers = Follow.where(:follower_id =>@user.id).pluck(:user_id)
+		@posts=Post.where(:user_id => @followers)		
 	end
-
-	
-
 
 	def new
 		@user=User.new()		
@@ -63,30 +48,25 @@ class UsersController < ApplicationController
 		end		
 	end
 
-	def update
-		
+	def update		
 		if (params[:state_id])
 			@user_state_id = params[:state_id]			
-		end
-	
+		end	
 		if @user.update_attributes(user_update_params)
 			flash[:notice]= "User details updated successfully."
 			redirect_to user_path(session[:current_user_id])			
 		else
 			flash[:notice] = "something wrong."
 			render 'edit'
-		end 
-		
+		end 		
 	end
 
 
 	def password		
 	end
 
-	def change_password	
-		
+	def change_password		
 		if ((user_password_params[:password].eql? user_password_params[:password_confirmation]) && (user_password_params[:password].length > 6 && user_password_params[:password].length < 16)) 
-
 			if @user.update_attributes(user_password_params)
 				flash[:notice]= "User password updated successfully."			
 				redirect_to  access_logout_path
@@ -117,10 +97,6 @@ class UsersController < ApplicationController
 			redirect_to users_path
 		end
 	end
-
-
-
-
 
 	def get_states
     	states = State.where('country_id = ?', params[:id]).order('state_name ASC')
@@ -155,12 +131,9 @@ class UsersController < ApplicationController
 		end
 	end
 
-
-
 	def unfollow_user		
 		followee = params[:followee]
-		followers= params[:followers]		
-
+		followers= params[:followers]
 		if(session[:current_user_id]!=nil)
 			user = User.find_by(:id => followee)
 			@follow=Follow.where(:user_id => followee,:follower_id => followers).first
@@ -183,7 +156,6 @@ class UsersController < ApplicationController
 	end
 
 	def approve_users
-		# abort(request.url)
 		@users_approve = User.where(:is_admin => false, :is_approve => true).order('email ASC')
 		@users_disapprove = User.where(:is_admin => false, :is_approve => false).order('email ASC')
 	end
@@ -191,8 +163,7 @@ class UsersController < ApplicationController
 	def make_approve
 		user = User.find_by_id(params[:id])
 		user.update_attributes(:is_approve => true )
-		redirect_to approve_users_users_path
-		
+		redirect_to approve_users_users_path		
 	end
 
 	def make_disapprove
@@ -200,8 +171,6 @@ class UsersController < ApplicationController
 		user.update_attributes(:is_approve => false )
 		redirect_to approve_users_users_path
 	end
-
-
 
 	def follow_details
 		@user = User.find(params[:id])
@@ -219,11 +188,9 @@ class UsersController < ApplicationController
 	    render json: result, status: 200        
   	end
 
-  	#'Acting' => 1, 'Cooking' => 2, 'Dance' => 3, 'Fashion' => 4, 'Pet' => 5,  'Puzzles' => 6
   	def convert_array(p)
   		i=0
-  		a = ""
-  		
+  		a = ""  		
 		p.each do |t|
   			if(i>0)
   				a = a.to_s + ","
@@ -260,7 +227,6 @@ class UsersController < ApplicationController
 	end
 	helper_method :is_admin?
 
-
 	def get_interest
 		@user=User.find(session[:current_user_id])
 		result = {'res' => @user.interest, 'message' => 'User interests.'}	    
@@ -268,13 +234,10 @@ class UsersController < ApplicationController
 
 	end
 
-
 	private
-
 	def user_login?
 		unless !session[:current_user_id]
-      		redirect_to root_path
-      		
+      		redirect_to root_path      		
       		return false 
     	else
       		return true
@@ -282,22 +245,17 @@ class UsersController < ApplicationController
 	end
 
 	def user_password_params	
-		# params[:user].only(:password,:password_confirmation)	
-		# params[:user].delete [:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :profile_image, :is_approve]			
 		params.require(:user).permit(:password,:password_confirmation)
 	end
 
-	def user_create_params	
-		
+	def user_create_params			
 		params[:user][:interest]=(params[:user][:interest]).to_json		
 		params.require(:user).permit(:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :password, :profile_image,:password_confirmation, :is_approve)
 	end
 	
 
-	def user_update_params	
-		params[:user].delete :password
-		params[:user].delete :password_confirmation
+	def user_update_params		
 		params[:user][:interest]=(params[:user][:interest]).to_json		
-		params.require(:user).permit(:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :password, :profile_image,:password_confirmation, :is_approve)
+		params.require(:user).permit(:first_name, :last_name, :gender, :country_id, :state_id, :interest, :address, :email, :profile_image, :is_approve)
 	end
 end

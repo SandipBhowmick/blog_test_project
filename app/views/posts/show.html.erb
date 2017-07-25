@@ -1,38 +1,38 @@
 <div class="container">
 	<div class="row justify-content-md-left">
-		<div class="col-md-4"><h2>Title</h2></div>
-		<div class="col-md-6"><%= @post.title %></div>
+		<div class="col-md-3">Title</div>
+		<div class="col-md-9"><strong><%= @post.title %></strong></div>
 	</div>
 
 	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Body</strong></div>
-		<div class="col-md-6"><%=@post.body %></div>
+		<div class="col-md-3">Image</div>
+		<div class="col-md-9"><%= image_tag attachment_url(@post, :image, :fill, 300, 300, format: "jpg") %></div>
 	</div>
 
 	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Image</strong></div>
-		<div class="col-md-6"><%= image_tag attachment_url(@post, :image, :fill, 100, 100, format: "jpg") %></div>
+		<div class="col-md-3">Body</div>
+		<div class="col-md-9"><%=@post.body %></div>
+	</div>	
+
+	<div class="row justify-content-md-left">
+		<div class="col-md-3">Post Type</div>
+		<div class="col-md-9"><% if @parent_category %><%= @parent_category.name %> -><% end %>  <% if @category %><%= @category.name %><% end %></div>
 	</div>
 
 	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Post Type</strong></div>
-		<div class="col-md-6"><% if @parent_category %><%= @parent_category.name %> -><% end %>  <% if @category %><%= @category.name %><% end %></div>
+		<div class="col-md-3">Post by</div>
+		<div class="col-md-9"><%=@post.user.email %></div>
 	</div>
 
 	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Post by</strong></div>
-		<div class="col-md-6"><%=@post.user.email %></div>
-	</div>
-
-	<div class="row justify-content-md-left">
-		<div class="col-md-4"><strong>Post at</strong></div>
-		<div class="col-md-6"><%=time_ago_in_words(@post.created_at) %> ago</div>
+		<div class="col-md-3">Post at</div>
+		<div class="col-md-9"><%=time_ago_in_words(@post.created_at) %> ago</div>
 	</div>
 
 	<div>
-		<h2><%= @post.comments.count %> Comments </h2>
+		<h4><%= @post.comments.count %> Comments </h4>
 		<%= render @post.comments %>
-		<h3>Add a comment: </h3>
+		<strong>Add a comment: </strong>
 		<%= render "comments/form" %>
 	</div>
 	

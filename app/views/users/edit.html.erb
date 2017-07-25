@@ -3,46 +3,32 @@
 
 	$(window).load(function () {
 		if($(user_country_id).val())
-		{
-			
-			 data_from_state1();
-			 
-			 
-		}
-		// alert("abcd");
+		{			
+			data_from_state1();		 
+		}		
 		data_from_interest();
 	});
-
 	$(document).ready(function(){
 		$("#user_country_id").on('change',function(){			
 			data_from_state();
-			data_from_interest();
-			 		
+			data_from_interest();			 		
 		});
 		data_from_interest();
 		data_from_state1();
 	});
 
-
-		function data_from_interest() {
+	function data_from_interest() {
 		$.ajax({          
-		type: "get",
-		url: "<%= get_interest_user_path %>",
-		
-		data: {},
+			type: "get",
+			url: "<%= get_interest_user_path %>",			
+			data: {},
 			success: function(t){
 				
 				if(t.res.length)
-				{	
-
-					// alert(t.res); 
-
+				{
 					for (var i=0;i<=t.res.length;i++){
-
-					
 						$("input[value='" + t.res[i] + "']").prop('checked', true);
-					}
-			 		// $('#user_interest_1').prop('checked', true);
+					}			 		
 				}
 				else
 				{
@@ -52,38 +38,20 @@
 		});
 	}
 
-
-
-
 	function data_from_state() {
 		$.ajax({          
 		type: "get",
-		url: "<%= get_states_path %>",
-		
+		url: "<%= get_states_path %>",		
 		data: {"id" : $(user_country_id).val()},
-			success: function(r){
-				
+			success: function(r){				
 				if(r.res.length)
-				{
-					
+				{					
 					$("#user_state_id").empty();
 					$("#user_state_id").append("<option value='' >Select one state</option>");
-					
-					// $("#user_state_id").append("<option value="" disabled selected>"+"Select one state"+"</placeholder>");
-					// $("#user_state_id").append("<option disabled selected value>"+"Select one state"+"</option>");
-					
-					
-						$.each(r.res, function(key, value){
-							
-								$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")
-						      
-							
-
-						});	
-
-						
+					$.each(r.res, function(key, value){						
+							$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")
+						});						
 					$('select[name="user[state_id]"]').val(<%= j @state_js %>);		
-				
 				}
 				else
 				{
@@ -100,34 +68,18 @@
 		url: "<%= get_states_path %>",
 		
 		data: {"id" : $(user_country_id).val()},
-			success: function(r){
-				
+			success: function(r){				
 				if(r.res.length)
-				{
-					
+				{				
 					$("#user_state_id").empty();
-					// $("#user_state_id").append("<option value='' >Select one state</option>");
-					
-					// $("#user_state_id").append("<option value="" disabled selected>"+"Select one state"+"</placeholder>");
-					// $("#user_state_id").append("<option disabled selected value>"+"Select one state"+"</option>");
-					
-					
-						$.each(r.res, function(key, value){
-							
-								$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")
-						      
-							
-
-						});	
-
-						
+					$.each(r.res, function(key, value){
+						$("#user_state_id").append("<option value='" + value.id + "'>" + value.state_name +"</option>")
+					});						
 					$('select[name="user[state_id]"]').val(<%= j @state_js %>);		
-				
 				}
 				else
 				{
-					$("#user_state_id").empty();
-					// $("#user_state_id").append("<option value=''>Select one state</option>");		
+					$("#user_state_id").empty();							
 				}
 			}, 
 		});

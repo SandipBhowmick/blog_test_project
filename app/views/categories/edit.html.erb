@@ -1,8 +1,6 @@
 <%= link_to("<< Back to List", root_path) %>
-
 <div class="new user">
   <h2>Edit Category</h2>
-
   <%= form_for(@category, :url => {:action => 'update', :id => @category.id}) do |f| %>
  	<div><%=f.label(:name, "Category Name")%></div>
 	<div><%= f.text_field(:name, placeholder: "Enter a category name") %></div>
@@ -13,7 +11,5 @@
     <div class="form-buttons">
 		<%= submit_tag("Update") %>
     </div>
-
-  <% end %>
-  
+  <% end %>  
 </div>

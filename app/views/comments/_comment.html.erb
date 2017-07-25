@@ -14,8 +14,7 @@
 			<% if is_admin?(session[:current_user_id]) %>
 				<%= link_to("Un-publish",posts_comments_soft_publish_path(:post_id =>@post.id,:id =>comment.id), html_options = {method: :post}) %>
 			<% end %>
-			</p>
-		
+			</p>		
 	</div> 
 <% else %><%if(comment.user_id == session[:current_user_id] || is_admin?(session[:current_user_id]) )  %>
 	<div ><strong>Un-publish Commends</strong>
@@ -34,8 +33,7 @@
 			<% if is_admin?(session[:current_user_id]) %>
 				<%= link_to("Publish",posts_comments_soft_unpublish_path(:post_id =>@post.id,:id =>comment.id), html_options = {method: :post}) %>
 			<% end %>
-		</p>
-		
+		</p>		
 	</div> 
 	<% end %>
 <% end %>	

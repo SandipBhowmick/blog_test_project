@@ -1,58 +1,35 @@
 class CommentsController < ApplicationController
 	layout "comment"
 	before_action :store_return_to
-	before_action :confirm_logged_in 
-	
-	# def index
-
-	# end
+	before_action :confirm_logged_in 	
 
 	def create
-		# byebug
-
 		@post =Post.find(params[:post_id])
-
-		# abort(comment_params.class.to_s)
-		# @comment_params["user_id"]= session[:current_user_id]
 		change_params = comment_params.clone
 		change_params[:user_id]= session[:current_user_id]
 		@comment = @post.comments.build(change_params)
-		#abort(comment_params[:image].class.to_s)
-		# abort(comment_params)
 		if(comment_params[:name]=="")
 			flash[:name]= "Name cannot be blank."
 		end
-
-		if(comment_params[:body]=="")
-			
+		if(comment_params[:body]=="")			
 			if (comment_params[:image].is_a? String)
 				if(comment_params[:image].tr('{}', '')=="")
 				flash[:body]= "Body cannot be blank."
-				flash[:image]= "Please choose one image."
-				# byebug
+				flash[:image]= "Please choose one image."				
 				end	
 			end		
 		end
-
-
-
-		# abort(@comment.inspect)
-		# redirect_to(post_path(@post))
+		
 		if @comment.save
 			flash[:notice]= "great."
 			redirect_to(post_path(@post))	
-		else
-		
+		else		
 			flash[:notice]= "something wrong."
-
-			  redirect_to post_path(@post)
-			 # byebug
-			 # render "posts/show"
+			redirect_to post_path(@post)			
 		end	
 	end
 
-	def edit
-		   # abort(params.to_json)
+	def edit		
 		 @post= Post.find(params[:post_id])
 		 @comment = Comment.find(params[:id])
 	end
@@ -61,13 +38,11 @@ class CommentsController < ApplicationController
 	def update
 		@post= Post.find(params[:post_id])
 		@comment = Comment.find(params[:id])
-		if(comment_params[:body]=="")
-			
+		if(comment_params[:body]=="")			
 			if (comment_params[:image].is_a? String)
 				if(comment_params[:image].tr('{}', '')=="")
 				flash[:body]= "Body cannot be blank."
-				flash[:image]= "Please choose one image."
-				# byebug
+				flash[:image]= "Please choose one image."				
 				end	
 			end		
 		end
@@ -84,8 +59,6 @@ class CommentsController < ApplicationController
 	def soft_publish
 		@post = Post.find(params[:post_id])
 		@comment = @post.comments.find(params[:id])
-
-		# abort()
 		if(is_admin?(session[:current_user_id]))
 			@comment.update_attributes(publish: false)
 			flash[:notice]= "Comment '#{@comment.name}' un-publish successfully."
@@ -99,30 +72,21 @@ class CommentsController < ApplicationController
 	def soft_unpublish
 		@post = Post.find(params[:post_id])
 		@comment = @post.comments.find(params[:id])
-
-		# abort()
 		if(is_admin?(session[:current_user_id]))
 			@comment.update_attributes(publish: true)
 			flash[:notice]= "Comment '#{@comment.name}' publish successfully."
-			# byebug
 			redirect_to post_path(@post)
 		else
 			flash[:notice] = "you are not authorized to publish this comment."
 			redirect_to post_path(@post)
 		end
-	end
-
-
-	
+	end	
 
 	def destroy
 		@post = Post.find(params[:post_id])
 		@comment = @post.comments.find(params[:id])
-
-		# abort()
 		if(@post.user_id==session[:current_user_id])
 			@comment.destroy
-
 			redirect_to post_path(@post)
 		else
 			flash[:notice] = "you are not authorized to destroy this comment."
@@ -130,22 +94,14 @@ class CommentsController < ApplicationController
 		end
 	end
 
-
-
 	def is_admin?(user)
-
 		user = User.find(user)
 		user.is_admin
 	end
 	helper_method :is_admin?
 
-
-	private
-	
+	private	
 		def comment_params
-
 			@comment_params=params.require(:comment).permit(:name,:body,:user_id,:image)	
 		end
-
-
 end

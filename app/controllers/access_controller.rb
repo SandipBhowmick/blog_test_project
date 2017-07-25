@@ -1,10 +1,6 @@
 class AccessController < ApplicationController
-  layout "access"
-  
-  # before_action :store_return_to 
+  layout "access"  
   before_action :confirm_logged_in, :only => [:logout]
-  # before_action :confirm_logged_in, :except => [:index,:login, :attempt_login, :logout]
-
   
   def index
   	#display text & links
@@ -45,7 +41,6 @@ class AccessController < ApplicationController
           else
             redirect_back_or_default(root_path)
           end
-
         end
       else
          flash[:notice] = "Admin approval is pending. Please contact admin."
@@ -62,7 +57,6 @@ class AccessController < ApplicationController
     UserSession.find_by_user_id(session[:current_user_id]).destroy    
     session[:current_user_id] = nil 
     session[:return_to] = nil
-
     if(params[:authorized])
       flash[:authorized] = params[:authorized]
     end
@@ -78,5 +72,4 @@ class AccessController < ApplicationController
     end
     render json: result, status: 200        
   end
-
 end
