@@ -31,6 +31,8 @@ gem "refile", require: "refile/rails"
 gem "refile-mini_magick"
 gem "breadcrumbs_on_rails"
 
+gem 'ransack'
+
 
 #gem "refile", require: ["refile/rails", "refile/image_processing"]
 

@@ -1,12 +1,67 @@
 class PostsController < ApplicationController
+
 	layout "post"
 	
 	before_action :store_return_to
 	before_action :confirm_logged_in,:except => [:index, :show] 
 
+	
+	def search 
+
+		index    
+		render :index
+    end
+
 	def index
-		@posts= Post.all().order('created_at ASC')
+		# abort(params[:q].to_json)
+		@posts = Post.all
+		@categories = []
+		@posts.each do |p|
+			@categories.push(find_category_all(p))
+		end
+		@categories = @categories.uniq
+
+		 # abort(@categories.to_json)
+
+
+		# p "++++++++++++++++++++++++++++++++++++++++++++"
+		# p (params[:q].inspect)
+		# p "++++++++++++++++++++++++++++++++++++++++++++"
+		# byebug
+		# if(params[:q])
+		# 	if(params[:q][:category_id_eq] != "")
+		# 		seartch_for = {:category_id_eq => params[:q][:category_id_eq]} 
+		# 	end
+		# 	if(params[:q][:id_eq]!= "")
+		# 		seartch_for = {:category_id_eq => params[:q][:id_eq]} 
+		# 	end
+			
+		# end
+		# p "++++++++++++++++++++++++++++++++++++++++++++"
+		# p (seartch_for)
+		# p "++++++++++++++++++++++++++++++++++++++++++++"
+		@q = Post.ransack(params[:q])
+		@posts = @q.result(distinct: true)
+		# byebug
+
+		# @posts= Post.all().order('created_at ASC')
 	end
+
+		def find_category_all(post)
+		# abort(post.category_id.inspect)
+		# abort(Category.select(:name).find(post.category_id).inspect)
+		category = Category.find(post.category_id)
+		category
+		# if(category.parent_id == nil)
+		# 	category
+		#  else
+		#  	category_p = Category.find(category.parent_id)
+		#  	category_p
+		# end
+		
+		# abort(category.inspect)
+	end
+	helper_method :find_category_all
 
 	def find_category_name(post)
 		# abort(post.category_id.inspect)

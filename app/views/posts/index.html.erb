@@ -1,7 +1,30 @@
 <h2> All post </h2>
 <div class="container">
+
+	<%= search_form_for( @q, url: search_posts_path, html: { method: :post })do |f| %>
 	<div class="row justify-content-md-left">
 		
+			<div class="col-md-1"><strong></strong></div>	
+			<div class="col-md-2"><strong></strong></div>
+			<div class="col-md-1"><strong></strong></div>
+			<!-- <div class="col-md-1"><%#= f.collection_select :category_id_eq,Category.where(categories: {user_id: session[:current_user_id]},categories: {parent_id: nil}),:id,:name,include_blank: 'Select'%></div> -->
+
+			<div class="col-md-1"></div> 
+
+			<!-- <div class="col-md-1"><%#= f.collection_select :category_id_eq,Post.select("category_id,name").joins(:category),:category_id,:name,include_blank: 'Select'%></div> -->
+
+			<!-- <div class="col-md-1"><%#= f.collection_select :category_id_eq,Category.select("name,category_id").joins(:posts).uniq,:category_id,:name,include_blank: 'Select'%></div> -->
+			
+			 <!-- <div class="col-md-1"><%#= f.collection_select :category_id_eq,Category.select("name,category_id").joins(:posts).uniq,:category_id,:name,include_blank: 'Select'%></div> -->
+			<div class="col-md-2"><%= f.select :category_id_eq, @categories.map{|v|[v.name,v.id]}, include_blank: 'Select'%></div>
+			<div class="col-md-2"><%=f.search_field :title_or_body_cont, :placeholder => 'title or body contains'%></div>
+			<div class="col-md-2"><%=f.submit %></div>
+					
+	<% end %>
+	</div>
+
+	<div class="row justify-content-md-left">
+		<% if @q.result.length != 0 %>
 			<div class="col-md-1"><strong>Title</strong></div>	
 			<div class="col-md-2"><strong>Body</strong></div>
 			<div class="col-md-1"><strong>Image</strong></div>
@@ -10,8 +33,15 @@
 			<div class="col-md-2"><strong>Post by </strong></div>
 			<div class="col-md-2"><strong>Post at</strong></div>
 			<div class="col-md-2"><strong>Action </strong></div>
-		
+		<% end %>
 	</div>
+	
+
+	
+
+
+
+
 	<div class="row justify-content-md-left"><br></div>
 	<% @posts.each do |u| %>
 		<% if u!= nil %>
@@ -35,7 +65,7 @@
 			<% end %>
 		<% end %>
 	<% end %>
-	<div><br><strong> Un-publish Posts</strong> </div><br>
+	<% if @q.result.length != 0 %><div><br><strong> Un-publish Posts</strong> </div><br> <% end %>
 	<% @posts.each do |u| %>
 		<% if u!= nil %>
 		
@@ -57,7 +87,19 @@
 					
 			
 		<% end %>
-	<% end %>	
+	<% end %>
+
+
+
+	<% if @q.result.length == 0 %> <div class="row justify-content-md-left">
+		
+			
+					
+			<div class="col-md-3"><strong> </strong></div>
+			<div class="col-md-6"><h2>No data found!</h2></div>
+			<div class="col-md-3"><strong> </strong></div>
+		
+	</div><% end %>	
 	
 		
 </div>

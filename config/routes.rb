@@ -25,7 +25,9 @@ Rails.application.routes.draw do
       end 
     end
     resources :posts do
-        
+        collection do
+        match 'search' => 'posts#search', via: [:get, :post], as: :search
+      end
       
       resources :comments, except: [:index,:show]
       # resources :comments do
