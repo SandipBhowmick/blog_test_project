@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 	before_action :store_return_to
 	before_action :confirm_logged_in_as_admin, :only =>[:approve_users]
 	before_action :confirm_logged_in, :only =>[:follow_user, :unfollow_user,:edit, :update, :password,:change_password]
-	before_action :user_login? , :only =>[:new,:create]
+	before_action :user_login?, :only =>[:new,:create]
 	before_action :find_login_user_data_verification,:only =>[:edit,:update,:password,:change_password]
 
 	def home
