@@ -1,4 +1,4 @@
-ruby hash populated collection_check_boxes  in registration page
+
 # blog_test_project_brsoft
 
 Heroku link https://sandipblog.herokuapp.com
