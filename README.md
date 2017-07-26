@@ -5,8 +5,7 @@ Heroku link https://sandipblog.herokuapp.com
 
 This project is prepare with some unconventional rails featires. So it is not just a CRUD operation on some resources. 
 
-
-$ Unconventional rails featires like 
+@Unconventional rails featires like:
 
 ruby hash populated collection_check_boxes  in registration page
 
