@@ -3,6 +3,12 @@
 
 Heroku link https://sandipblog.herokuapp.com
 
+admin login id:bhowmick.sandip@gmail.com 
+password : password
+
+User login id:user@example.com
+password : password
+
 This project is prepare with some unconventional rails featires. So it is not just a CRUD operation on some resources. 
 
 @Unconventional rails featires like:
