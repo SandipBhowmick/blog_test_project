@@ -1,6 +1,5 @@
 
-# blog_test_project_brsoft
-
+# blog_test_project
 Heroku link https://sandipblog.herokuapp.com
 
 admin login id:bhowmick.sandip@gmail.com 
